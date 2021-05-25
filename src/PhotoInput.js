@@ -24,13 +24,11 @@ class PhotoInput extends React.Component {
     this.onPhotoUpload = this.onPhotoUpload.bind(this)
   }
 
-  
-
   onPhotoUpload (event) {
     let file = event.target.files[0]
 
     exifr.parse(file)
-      .then(output  => {
+      .then(output => {
         let exifData = {
           camera: output.Model,
           shutterSpeed: output.ExposureTime,
@@ -44,8 +42,6 @@ class PhotoInput extends React.Component {
         });
       })
           
-    
-    
   } 
   
   handleChange = color => this.setState({ accentColour: color })
@@ -75,7 +71,12 @@ class PhotoInput extends React.Component {
                 Aperture: {this.state.metaData.aperture}<br></br>
                 Focal Length: {this.state.metaData.foc}<br></br>
                 ISO: {this.state.metaData.iso}<br></br>
+                <br></br>
+                Colour: {this.state.accentColour}
               </p>
+              <label>Elevation: </label><input class="PhotoInput-TextInput"></input><br></br>
+              <label>Distance: </label><input class="PhotoInput-TextInput"></input><br></br>
+              <label>Location: </label><input class="PhotoInput-TextInput"></input>
             </div>
           </div>
 
