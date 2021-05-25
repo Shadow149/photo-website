@@ -4,6 +4,8 @@ import { HexColorPicker } from "react-colorful";
 import { SliderPicker  } from 'react-color';
 import exifr from 'exifr'
 import jimp from 'jimp';
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+
 
 
 class PhotoInput extends React.Component {
@@ -21,11 +23,13 @@ class PhotoInput extends React.Component {
         foc: '',
         iso: ''
       },
+      photoLoading: false,
     };
     this.onPhotoUpload = this.onPhotoUpload.bind(this)
   }
 
   onPhotoUpload (event) {
+    this.setState({photoLoading: true});
     let file = event.target.files[0]    
 
     function componentToHex(c) {
@@ -56,7 +60,6 @@ class PhotoInput extends React.Component {
       return rgbToHex(average[0],average[1],average[2])
     }
       
-
     jimp.read(String(URL.createObjectURL(file)))
     .then(
       (img) => {
@@ -74,20 +77,31 @@ class PhotoInput extends React.Component {
             shutterSpeed: output.ExposureTime,
             aperture: output.FNumber,
             foc: output.FocalLength,
-            iso:output.ISO
+            iso: output.ISO
           };
           this.setState({
             file: URL.createObjectURL(file),
             metaData: exifData,
             accentColour: averageColor,
+            photoLoading: false
+          });
+        }).catch(() => {
+          let exifData = {
+            camera: '',
+            shutterSpeed: '',
+            aperture: '',
+            foc: '',
+            iso: ''
+          };
+          this.setState({
+            file: URL.createObjectURL(file),
+            metaData: exifData,
+            accentColour: averageColor,
+            photoLoading: false
           });
         })
       }
     );
-
-
-    
-          
   } 
   
   handleChange = color => this.setState({ accentColour: color })
@@ -116,8 +130,7 @@ class PhotoInput extends React.Component {
                 Shutter Speed: {1/this.state.metaData.shutterSpeed}<br></br>
                 Aperture: {this.state.metaData.aperture}<br></br>
                 Focal Length: {this.state.metaData.foc}<br></br>
-                ISO: {this.state.metaData.iso}<br></br>
-                <br></br>
+                ISO: {this.state.metaData.iso}<br></br><br></br>
                 Colour: {this.state.accentColour}
               </p>
               <label>Elevation: </label><input class="PhotoInput-TextInput"></input><br></br>
@@ -128,8 +141,9 @@ class PhotoInput extends React.Component {
 
           <div class="gridItem">
             <h2>Preview: </h2>
+            <ClimbingBoxLoader color={"#123abc"} loading={this.state.photoLoading} speedMultiplier={1} />
             <br></br>
-            <div class="PhotoInput-PrevContainer">
+            <div class="PhotoInput-PrevContainer" >
               <img class="PhotoInput-ImagePrev" src={this.state.file}/>
               <div class="PhotoInput-TitlePrev" style={{backgroundColor: this.state.accentColour}}>{this.state.title}</div>
             </div>
