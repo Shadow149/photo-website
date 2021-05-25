@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './PhotoInput.css';
 import { HexColorPicker } from "react-colorful";
 import { SliderPicker  } from 'react-color';
 import exifr from 'exifr'
+import jimp from 'jimp';
+
 
 class PhotoInput extends React.Component {
 
@@ -25,22 +26,67 @@ class PhotoInput extends React.Component {
   }
 
   onPhotoUpload (event) {
-    let file = event.target.files[0]
+    let file = event.target.files[0]    
 
-    exifr.parse(file)
-      .then(output => {
-        let exifData = {
-          camera: output.Model,
-          shutterSpeed: output.ExposureTime,
-          aperture: output.FNumber,
-          foc: output.FocalLength,
-          iso:output.ISO
-        };
-        this.setState({
-          file: URL.createObjectURL(file),
-          metaData: exifData,
-        });
-      })
+    function componentToHex(c) {
+      var hex = parseInt(c).toString(16);
+      return hex.length == 1 ? "0" + hex : hex;
+    }
+    
+    function rgbToHex(r, g, b) {
+      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+
+    function getAveragePixelValue(img){
+      let width = img.bitmap.width;
+      let height = img.bitmap.height;
+      let average = [0,0,0];
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          let pixel = jimp.intToRGBA(img.getPixelColor(x, y));
+          average[0] += pixel.r;
+          average[1] += pixel.g;
+          average[2] += pixel.b;
+        }
+      }
+      average[0] /= height*width
+      average[1] /= height*width
+      average[2] /= height*width
+
+      return rgbToHex(average[0],average[1],average[2])
+    }
+      
+
+    jimp.read(String(URL.createObjectURL(file)))
+    .then(
+      (img) => {
+        let ratio = 200 / img.bitmap.width;
+        img
+          .scale(ratio, jimp.AUTO)
+          .blur(25);
+        return getAveragePixelValue(img);
+      }
+    ).then( (averageColor) => {
+        exifr.parse(file)
+        .then(output => {
+          let exifData = {
+            camera: output.Model,
+            shutterSpeed: output.ExposureTime,
+            aperture: output.FNumber,
+            foc: output.FocalLength,
+            iso:output.ISO
+          };
+          this.setState({
+            file: URL.createObjectURL(file),
+            metaData: exifData,
+            accentColour: averageColor,
+          });
+        })
+      }
+    );
+
+
+    
           
   } 
   

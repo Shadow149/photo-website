@@ -1,8 +1,8 @@
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 
-img = cv.imread('/Users/alfredroberts/Pictures/Edited Photos/U75A6725-2.jpg')
+img = cv.imread('E:\\Edited Photos\\U75A7906.jpg')
 
 scale_percent = 10 # percent of original size
 width = int(img.shape[1] * scale_percent / 100)
