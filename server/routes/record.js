@@ -26,6 +26,7 @@ recordRoutes.route("/record/add").post(function (req, res) {
   let myobj = {
     title: req.body.title,
     accentColour: req.body.accentColour,
+    url: req.body.url,
   };
   db_connect.collection("photos").insertOne(myobj, function (err, res) {
     if (err) throw err;
@@ -40,6 +41,7 @@ recordRoutes.route("/update/:id").post(function (req, res) {
     $set: {
       title: req.body.title,
       accentColour: req.body.accentColour,
+      url: req.body.url,
     },
   };
   db_connect

@@ -6,6 +6,7 @@ import exifr from 'exifr'
 import jimp from 'jimp';
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import axios from 'axios';
+import { createHash } from 'crypto';
 
 
 class PhotoInput extends React.Component {
@@ -29,37 +30,38 @@ class PhotoInput extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  componentToHex (c) {
+    var hex = parseInt(c).toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+  
+  rgbToHex (r, g, b) {
+    return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
+  }
+
+  getAveragePixelValue(img){
+    let width = img.bitmap.width;
+    let height = img.bitmap.height;
+    let average = [0,0,0];
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        let pixel = jimp.intToRGBA(img.getPixelColor(x, y));
+        average[0] += pixel.r;
+        average[1] += pixel.g;
+        average[2] += pixel.b;
+      }
+    }
+
+    average[0] /= height*width
+    average[1] /= height*width
+    average[2] /= height*width
+
+    return this.rgbToHex(average[0],average[1],average[2])
+  }
+
   onPhotoUpload (event) {
     this.setState({photoLoading: true});
     let file = event.target.files[0]    
-
-    function componentToHex(c) {
-      var hex = parseInt(c).toString(16);
-      return hex.length == 1 ? "0" + hex : hex;
-    }
-    
-    function rgbToHex(r, g, b) {
-      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    }
-
-    function getAveragePixelValue(img){
-      let width = img.bitmap.width;
-      let height = img.bitmap.height;
-      let average = [0,0,0];
-      for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-          let pixel = jimp.intToRGBA(img.getPixelColor(x, y));
-          average[0] += pixel.r;
-          average[1] += pixel.g;
-          average[2] += pixel.b;
-        }
-      }
-      average[0] /= height*width
-      average[1] /= height*width
-      average[2] /= height*width
-
-      return rgbToHex(average[0],average[1],average[2])
-    }
       
     jimp.read(String(URL.createObjectURL(file)))
     .then(
@@ -68,7 +70,7 @@ class PhotoInput extends React.Component {
         img
           .scale(ratio, jimp.AUTO)
           .blur(25);
-        return getAveragePixelValue(img);
+        return this.getAveragePixelValue(img);
       }
     ).then( (averageColor) => {
         exifr.parse(file)
@@ -105,37 +107,58 @@ class PhotoInput extends React.Component {
     );
   } 
 
+  generateCloudinarySignature(time, public_id){
+    // Generate signature
+    let string = "public_id="+public_id+"&timestamp="+time+process.env.REACT_APP_CLOUDINARY_API_SECRET
+    console.log(string)
+    const hash = createHash('sha1')
+    let sig;
+    hash.on('readable', () => {
+      const data = hash.read();
+      if (data) {
+        console.log(data.toString('hex'))
+        sig = data.toString('hex');
+      }
+    });
+    hash.write(string);
+    hash.end();
+    return sig;
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
     const file = document.querySelector("[type=file]").files[0];
-    
+    const url = 'https://api.cloudinary.com/v1_1/dcobw61kt/upload';
     const formData = new FormData();
 
     formData.append("file", file);
     formData.append("api_key", process.env.REACT_APP_CLOUDINARY_API_KEY);
-    formData.append("public_id", "sample_image");
-    formData.append("timestamp", Date.now());
-    formData.append("signature", () => {
-      // Generate signature
-      return 
-    });
+    
+    let time = Date.now();
+    let public_id = this.state.title+'_'+time;
 
-    fetch(process.env.REACT_APP_CLOUDINARY_URL, {
+    formData.append("timestamp", time);
+    formData.append("public_id", public_id);
+    
+    formData.append("signature", this.generateCloudinarySignature(time, public_id));
+
+    let img_url;
+
+    fetch(url, {
       method: "POST",
       body: formData
-    })
-      .then((response) => {
-        return response.text();
-      })
-      .then((data) => {
-        document.getElementById("data").innerHTML += data;
-      });
+    }).then((response) => {
+      return response.text();
+    }).then((data) => {
+      img_url = JSON.parse(data)['secure_url'];
+    });
     
 
     const newPhoto = {
       title: this.state.title,
       accentColour: this.state.accentColour,
+      url: img_url,
     };
 
     axios
@@ -169,7 +192,7 @@ class PhotoInput extends React.Component {
                 <label>Meta data: </label>
                 <p>
                   Camera: {this.state.metaData.camera}<br></br>
-                  Shutter Speed: {1/this.state.metaData.shutterSpeed}<br></br>
+                  Shutter Speed: {this.state.metaData.shutterSpeed != '' ? 1/this.state.metaData.shutterSpeed : ''}<br></br>
                   Aperture: {this.state.metaData.aperture}<br></br>
                   Focal Length: {this.state.metaData.foc}<br></br>
                   ISO: {this.state.metaData.iso}<br></br><br></br>
