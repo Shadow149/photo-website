@@ -5,7 +5,7 @@ import { SliderPicker  } from 'react-color';
 import exifr from 'exifr'
 import jimp from 'jimp';
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
-
+import axios from 'axios';
 
 
 class PhotoInput extends React.Component {
@@ -26,6 +26,7 @@ class PhotoInput extends React.Component {
       photoLoading: false,
     };
     this.onPhotoUpload = this.onPhotoUpload.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   onPhotoUpload (event) {
@@ -103,6 +104,45 @@ class PhotoInput extends React.Component {
       }
     );
   } 
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    const file = document.querySelector("[type=file]").files[0];
+    
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("api_key", process.env.REACT_APP_CLOUDINARY_API_KEY);
+    formData.append("public_id", "sample_image");
+    formData.append("timestamp", Date.now());
+    formData.append("signature", () => {
+      // Generate signature
+      return 
+    });
+
+    fetch(process.env.REACT_APP_CLOUDINARY_URL, {
+      method: "POST",
+      body: formData
+    })
+      .then((response) => {
+        return response.text();
+      })
+      .then((data) => {
+        document.getElementById("data").innerHTML += data;
+      });
+    
+
+    const newPhoto = {
+      title: this.state.title,
+      accentColour: this.state.accentColour,
+    };
+
+    axios
+      .post("http://localhost:3000/record/add", newPhoto)
+      .then((res) => console.log(res.data));
+
+  }
   
   handleChange = color => this.setState({ accentColour: color })
   handleChangeRC = color => this.setState({ accentColour: color.hex })
@@ -118,24 +158,32 @@ class PhotoInput extends React.Component {
             <div class="PhotoInput-DataCol">
 
               <h1>Add Photo</h1>
-              <input type="file" name="file" onChange={this.onPhotoUpload}/>
-              <br></br>
-              <label>Title: </label><input class="PhotoInput-TextInput" onChange={event => this.setState({title: event.target.value})}></input>
-              <br></br>
-              <label>Description: </label><textarea class="PhotoInput-DescriptionInput"></textarea>
-              <br></br>
-              <label>Meta data: </label>
-              <p>
-                Camera: {this.state.metaData.camera}<br></br>
-                Shutter Speed: {1/this.state.metaData.shutterSpeed}<br></br>
-                Aperture: {this.state.metaData.aperture}<br></br>
-                Focal Length: {this.state.metaData.foc}<br></br>
-                ISO: {this.state.metaData.iso}<br></br><br></br>
-                Colour: {this.state.accentColour}
-              </p>
-              <label>Elevation: </label><input class="PhotoInput-TextInput"></input><br></br>
-              <label>Distance: </label><input class="PhotoInput-TextInput"></input><br></br>
-              <label>Location: </label><input class="PhotoInput-TextInput"></input>
+              <form onSubmit={this.onSubmit}>
+              
+                <input type="file" name="file" onChange={this.onPhotoUpload}/>
+                <br></br>
+                <label>Title: </label><input class="PhotoInput-TextInput" onChange={event => this.setState({title: event.target.value})}></input>
+                <br></br>
+                <label>Description: </label><textarea class="PhotoInput-DescriptionInput"></textarea>
+                <br></br>
+                <label>Meta data: </label>
+                <p>
+                  Camera: {this.state.metaData.camera}<br></br>
+                  Shutter Speed: {1/this.state.metaData.shutterSpeed}<br></br>
+                  Aperture: {this.state.metaData.aperture}<br></br>
+                  Focal Length: {this.state.metaData.foc}<br></br>
+                  ISO: {this.state.metaData.iso}<br></br><br></br>
+                  Colour: {this.state.accentColour}
+                </p>
+                <label>Elevation: </label><input class="PhotoInput-TextInput"></input><br></br>
+                <label>Distance: </label><input class="PhotoInput-TextInput"></input><br></br>
+                <label>Location: </label><input class="PhotoInput-TextInput"></input><br></br>
+                <input
+                  type="submit"
+                  value="Add Photo"
+                />
+                
+              </form>
             </div>
           </div>
 
