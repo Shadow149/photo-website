@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import PhotoInput from './PhotoInput';
+import PageRouter from './page_router/PageRouter';
+// import PhotoInput from './photo_backend/PhotoInput';
 
 ReactDOM.render(
   <React.StrictMode>
-    <PhotoInput />
+    <PageRouter />
   </React.StrictMode>,
   document.getElementById('root')
 );

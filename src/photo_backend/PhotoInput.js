@@ -7,8 +7,7 @@ import jimp from 'jimp';
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import axios from 'axios';
 import { createHash } from 'crypto';
-
-
+// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 class PhotoInput extends React.Component {
 
   constructor(props) {
@@ -16,6 +15,12 @@ class PhotoInput extends React.Component {
     this.state = {
       accentColour: '#ffffff',
       title: '',
+      animal: '',
+      desc: '',
+      elevation: 0,
+      distance: 0,
+      location: '',
+      gps: '',
       imgFile: null,
       metaData: {
         camera: '',
@@ -143,7 +148,6 @@ class PhotoInput extends React.Component {
     
     formData.append("signature", this.generateCloudinarySignature(time, public_id));
 
-    let img_url;
 
     fetch(url, {
       method: "POST",
@@ -151,19 +155,19 @@ class PhotoInput extends React.Component {
     }).then((response) => {
       return response.text();
     }).then((data) => {
-      img_url = JSON.parse(data)['secure_url'];
+      let img_url = JSON.parse(data)['secure_url'];
+
+      const newPhoto = {
+        title: this.state.title,
+        accentColour: this.state.accentColour,
+        url: img_url,
+      };
+  
+      axios
+        .post("http://localhost:3000/record/add", newPhoto)
+        .then((res) => console.log(res.data));
     });
-    
-
-    const newPhoto = {
-      title: this.state.title,
-      accentColour: this.state.accentColour,
-      url: img_url,
-    };
-
-    axios
-      .post("http://localhost:3000/record/add", newPhoto)
-      .then((res) => console.log(res.data));
+        
 
   }
   
@@ -174,20 +178,22 @@ class PhotoInput extends React.Component {
     const { accentColour } = this.state
     console.log(this.state.metaData)
     return (
-      <div class="PhotoInput-title">
-        <div class="PhotoInput-Grid">
+      <div className="PhotoInput-title">
+        <div className="PhotoInput-Grid">
 
-          <div class="gridItem">
-            <div class="PhotoInput-DataCol">
+          <div className="gridItem">
+            <div className="PhotoInput-DataCol">
 
               <h1>Add Photo</h1>
               <form onSubmit={this.onSubmit}>
               
                 <input type="file" name="file" onChange={this.onPhotoUpload}/>
                 <br></br>
-                <label>Title: </label><input class="PhotoInput-TextInput" onChange={event => this.setState({title: event.target.value})}></input>
+                <label>Title: </label><input className="PhotoInput-TextInput" onChange={event => this.setState({title: event.target.value})}></input>
                 <br></br>
-                <label>Description: </label><textarea class="PhotoInput-DescriptionInput"></textarea>
+                <label>Animal: </label><input className="PhotoInput-TextInput" onChange={event => this.setState({animal: event.target.value})}></input>
+                <br></br>
+                <label>Description: </label><textarea className="PhotoInput-DescriptionInput" onChange={event => this.setState({desc: event.target.value})}></textarea>
                 <br></br>
                 <label>Meta data: </label>
                 <p>
@@ -198,9 +204,20 @@ class PhotoInput extends React.Component {
                   ISO: {this.state.metaData.iso}<br></br><br></br>
                   Colour: {this.state.accentColour}
                 </p>
-                <label>Elevation: </label><input class="PhotoInput-TextInput"></input><br></br>
-                <label>Distance: </label><input class="PhotoInput-TextInput"></input><br></br>
-                <label>Location: </label><input class="PhotoInput-TextInput"></input><br></br>
+                <label>Elevation: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({elevation: event.target.value})}></input><br></br>
+                <label>Distance: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({distance: event.target.value})}></input><br></br>
+                <label>Location: </label><input className="PhotoInput-TextInput"></input><br></br>
+                {/* <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+                  <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  <Marker position={[51.505, -0.09]}>
+                    <Popup>
+                      A pretty CSS3 popup. <br /> Easily customizable.
+                    </Popup>
+                  </Marker>
+                </MapContainer> */}
                 <input
                   type="submit"
                   value="Add Photo"
@@ -210,19 +227,19 @@ class PhotoInput extends React.Component {
             </div>
           </div>
 
-          <div class="gridItem">
+          <div className="gridItem">
             <h2>Preview: </h2>
             <ClimbingBoxLoader color={"#123abc"} loading={this.state.photoLoading} speedMultiplier={1} />
             <br></br>
-            <div class="PhotoInput-PrevContainer" >
-              <img class="PhotoInput-ImagePrev" src={this.state.file}/>
-              <div class="PhotoInput-TitlePrev" style={{backgroundColor: this.state.accentColour}}>{this.state.title}</div>
+            <div className="PhotoInput-PrevContainer" >
+              <img className="PhotoInput-ImagePrev" src={this.state.file}/>
+              <div className="PhotoInput-TitlePrev" style={{backgroundColor: this.state.accentColour}}>{this.state.title}</div>
             </div>
           </div>
-          <div class="gridItem">
+          <div className="gridItem">
             <HexColorPicker color={accentColour} onChange={this.handleChange} />
 
-            <div class="PhotoInput-Slider">
+            <div className="PhotoInput-Slider">
               <SliderPicker  color={accentColour} onChange={this.handleChangeRC}/>
             </div>
           </div>

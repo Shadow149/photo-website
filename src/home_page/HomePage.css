@@ -1,0 +1,39 @@
+.page {
+  height:100%;
+}
+.bio {
+  color: white;
+  font-family: 'Newsreader', serif;
+  transform: translate(55%, 200px);
+}
+
+.name_title {
+  margin: 0;
+  padding: 0;
+  font-size: 40px;
+}
+.bio_desc {
+  margin-top: 10px;
+  width: 30%;
+  text-align: justify;
+}
+
+.para_photo{
+  /* The image used */
+  background-image: url("https://res.cloudinary.com/dcobw61kt/image/upload/v1622133203/Among%20the%20Grass_1622133196543.jpg");
+
+  /* Full height */
+  height: 100%; 
+  width: 100%;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: 0% 30%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.featured_photos {
+  height:1000px;
+  background-color:white;
+}

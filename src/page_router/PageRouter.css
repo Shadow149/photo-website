@@ -1,0 +1,24 @@
+.RouterContainer {
+    height: 100%;
+}
+
+nav {
+    font-family: 'Newsreader', serif;
+    padding: 10px;
+    margin: 0;
+    background-color: white;
+}
+
+nav li {
+    display: inline;
+}
+.home {
+    padding-right: 13%;
+}
+
+nav li a {
+    color: black;
+    padding: 50px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
