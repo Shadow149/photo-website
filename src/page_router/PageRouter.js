@@ -9,6 +9,8 @@ import {
 
 import HomePage from '../home_page/HomePage';
 import PhotoInput from '../photo_backend/PhotoInput';
+import PhotoHighlight from '../photo_highlight/PhotoHighlight';
+import ScrollToTop from './ScrollToTop';
 
 
 function About() {
@@ -17,9 +19,11 @@ function About() {
 
 class PageRouter extends React.Component {
 
+
   render() {
     return (
       <Router>
+        <ScrollToTop/>
         <div className="RouterContainer">
 
           <nav>
@@ -38,8 +42,9 @@ class PageRouter extends React.Component {
 
           <Switch>
             <Route path="/about" children={<About/>} />
+            <Route path="/photo/:photo" children={<PhotoHighlight/>} />
             <Route path="/photoupload" children={<PhotoInput/>} />
-            <Route path="/" children={<HomePage/>} />
+            <Route path="/" render={ () => <HomePage/>} />
           </Switch>
         
         </div>

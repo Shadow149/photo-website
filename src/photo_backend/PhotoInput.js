@@ -7,7 +7,9 @@ import jimp from 'jimp';
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import axios from 'axios';
 import { createHash } from 'crypto';
-// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import LocationPicker from './LocationPicker'
+
+
 class PhotoInput extends React.Component {
 
   constructor(props) {
@@ -19,8 +21,10 @@ class PhotoInput extends React.Component {
       desc: '',
       elevation: 0,
       distance: 0,
-      location: '',
-      gps: '',
+      marker: {
+        lat: null,
+        lng: null,
+      },
       imgFile: null,
       metaData: {
         camera: '',
@@ -37,7 +41,7 @@ class PhotoInput extends React.Component {
 
   componentToHex (c) {
     var hex = parseInt(c).toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
+    return hex.length === 1 ? "0" + hex : hex;
   }
   
   rgbToHex (r, g, b) {
@@ -157,26 +161,52 @@ class PhotoInput extends React.Component {
     }).then((data) => {
       let img_url = JSON.parse(data)['secure_url'];
 
+      // const newPhoto = {
+      //   title: this.state.title,
+      //   accentColour: this.state.accentColour,
+      //   url: img_url,
+      // };
+  
       const newPhoto = {
         title: this.state.title,
         accentColour: this.state.accentColour,
         url: img_url,
+        animal: this.state.animal,
+        desc: this.state.desc,
+        elevation: this.state.elevation,
+        distance: this.state.distance,
+        location: this.state.marker,
+        metaData: this.state.metaData,
       };
   
       axios
         .post("http://localhost:3000/record/add", newPhoto)
-        .then((res) => console.log(res.data));
-    });
-        
+        .then((res) => console.log(res.data))
+        .catch(function (error) {
+          console.log(error);
+        });
+    }).catch(function (error) {
+      console.log(error);
+    });;
 
   }
   
   handleChange = color => this.setState({ accentColour: color })
   handleChangeRC = color => this.setState({ accentColour: color.hex })
+
+  onMapClick = event => {
+    this.setState({
+      marker: {
+        lat: event.lngLat[1],
+        lng: event.lngLat[0],
+      },
+    });
+  };
   
   render() {
     const { accentColour } = this.state
     console.log(this.state.metaData)
+
     return (
       <div className="PhotoInput-title">
         <div className="PhotoInput-Grid">
@@ -198,7 +228,7 @@ class PhotoInput extends React.Component {
                 <label>Meta data: </label>
                 <p>
                   Camera: {this.state.metaData.camera}<br></br>
-                  Shutter Speed: {this.state.metaData.shutterSpeed != '' ? 1/this.state.metaData.shutterSpeed : ''}<br></br>
+                  Shutter Speed: {this.state.metaData.shutterSpeed !== '' ? 1/this.state.metaData.shutterSpeed : ''}<br></br>
                   Aperture: {this.state.metaData.aperture}<br></br>
                   Focal Length: {this.state.metaData.foc}<br></br>
                   ISO: {this.state.metaData.iso}<br></br><br></br>
@@ -206,18 +236,8 @@ class PhotoInput extends React.Component {
                 </p>
                 <label>Elevation: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({elevation: event.target.value})}></input><br></br>
                 <label>Distance: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({distance: event.target.value})}></input><br></br>
-                <label>Location: </label><input className="PhotoInput-TextInput"></input><br></br>
-                {/* <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-                  <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker position={[51.505, -0.09]}>
-                    <Popup>
-                      A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                  </Marker>
-                </MapContainer> */}
+                <label>Location: </label><br></br>
+                <LocationPicker onClick={this.onMapClick} mLat={this.state.marker.lat} mLng={this.state.marker.lng}/>
                 <input
                   type="submit"
                   value="Add Photo"
@@ -232,7 +252,7 @@ class PhotoInput extends React.Component {
             <ClimbingBoxLoader color={"#123abc"} loading={this.state.photoLoading} speedMultiplier={1} />
             <br></br>
             <div className="PhotoInput-PrevContainer" >
-              <img className="PhotoInput-ImagePrev" src={this.state.file}/>
+              <img className="PhotoInput-ImagePrev" src={this.state.file} alt=''/>
               <div className="PhotoInput-TitlePrev" style={{backgroundColor: this.state.accentColour}}>{this.state.title}</div>
             </div>
           </div>

@@ -20,6 +20,32 @@ recordRoutes.route("/record").get(function (req, res) {
     });
 });
 
+recordRoutes.route("/last_documents/:num").get(function (req, res) {
+  let db_connect = dbo.getDb("photos_db");
+  let num = req.params.num;
+  console.log(num)
+  db_connect
+    .collection("photos")
+    .find({}).sort({_id:-1}).limit(parseInt(num))
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
+recordRoutes.route("/record/:title").get(function (req, res) {
+  let db_connect = dbo.getDb("photos_db");
+  let ptitle = req.params.title;
+  console.log(ptitle)
+  db_connect
+    .collection("photos")
+    .find({title: ptitle})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
 // This section will help you create a new record.
 recordRoutes.route("/record/add").post(function (req, res) {
   let db_connect = dbo.getDb("photos_db");
@@ -27,6 +53,12 @@ recordRoutes.route("/record/add").post(function (req, res) {
     title: req.body.title,
     accentColour: req.body.accentColour,
     url: req.body.url,
+    animal: req.body.animal,
+    desc: req.body.desc,
+    elevation: req.body.elevation,
+    distance: req.body.distance,
+    location: req.body.location,
+    metaData: req.body.metaData
   };
   db_connect.collection("photos").insertOne(myobj, function (err, res) {
     if (err) throw err;

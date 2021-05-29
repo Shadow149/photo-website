@@ -1,0 +1,41 @@
+.FeaturedPhoto-Title{
+    width: 105%;
+    height: 50px;
+    font-size: 30px;
+    position: relative;
+    color: white;
+    bottom: 65px;
+    font-family: 'Newsreader', serif;
+    font-weight: 500;
+    line-height: 50px;
+}
+
+.Foo {
+    width: 100%;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.FeaturedPhoto-Image{
+    /* width: 95%; */
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: 40% 100%;
+    box-shadow: 0 0 10px -5px black;
+    margin-left: 2.5%;
+}
+
+.container {
+    height: 100%;
+    cursor: pointer;
+}
+
+/* .container img { max-width: initial; Maybe optional. See note below } */
+
