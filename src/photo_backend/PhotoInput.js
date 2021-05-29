@@ -8,6 +8,7 @@ import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import axios from 'axios';
 import { createHash } from 'crypto';
 import LocationPicker from './LocationPicker'
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 class PhotoInput extends React.Component {
@@ -34,6 +35,9 @@ class PhotoInput extends React.Component {
         iso: ''
       },
       photoLoading: false,
+      uploadLoading: false,
+      uploadState: 1,
+      uploadMessage: '',
     };
     this.onPhotoUpload = this.onPhotoUpload.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -152,20 +156,24 @@ class PhotoInput extends React.Component {
     
     formData.append("signature", this.generateCloudinarySignature(time, public_id));
 
+    this.setState({
+      uploadLoading: true,
+    });
 
     fetch(url, {
       method: "POST",
       body: formData
     }).then((response) => {
+      if (!response.ok) {
+        this.setState({
+          uploadState: 0,
+          uploadLoading: false,
+          uploadMessage: 'Image failed to upload'
+        });
+      }
       return response.text();
     }).then((data) => {
       let img_url = JSON.parse(data)['secure_url'];
-
-      // const newPhoto = {
-      //   title: this.state.title,
-      //   accentColour: this.state.accentColour,
-      //   url: img_url,
-      // };
   
       const newPhoto = {
         title: this.state.title,
@@ -181,13 +189,26 @@ class PhotoInput extends React.Component {
   
       axios
         .post("http://localhost:3000/record/add", newPhoto)
-        .then((res) => console.log(res.data))
-        .catch(function (error) {
-          console.log(error);
+        .then((res) => {
+          if (res.status != 200) {
+            this.setState({
+              uploadState: 0,
+              uploadLoading: false,
+              uploadMessage: 'Database entry failed'
+            });
+          }
+          this.setState({
+            uploadState: 1,
+            uploadLoading: false,
+            uploadMessage: 'Upload Successful!'
+          });
+          console.log(res)
         });
+
     }).catch(function (error) {
       console.log(error);
-    });;
+    });
+
 
   }
   
@@ -205,10 +226,16 @@ class PhotoInput extends React.Component {
   
   render() {
     const { accentColour } = this.state
-    console.log(this.state.metaData)
-
+    if (this.state.uploadLoading){
+      return (
+        <div className="highlight_loader">
+          <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
+        </div>
+      );
+    }
     return (
       <div className="PhotoInput-title">
+        <h2 style={{color: this.state.uploadState ? "rgb(153, 233, 78)" : "rgb(241, 56, 56)"}}>{this.state.uploadMessage}</h2>
         <div className="PhotoInput-Grid">
 
           <div className="gridItem">

@@ -60,8 +60,9 @@ recordRoutes.route("/record/add").post(function (req, res) {
     location: req.body.location,
     metaData: req.body.metaData
   };
-  db_connect.collection("photos").insertOne(myobj, function (err, res) {
+  db_connect.collection("photos").insertOne(myobj, function (err, response) {
     if (err) throw err;
+    res.send(response);
   });
 });
 

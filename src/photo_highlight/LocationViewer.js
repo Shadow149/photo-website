@@ -18,6 +18,9 @@ class LocationViewer extends React.Component {
   }
   
   render() {
+    if (this.props.lat == null) {
+      return null;
+    }
     return (
       <MapGL
         {...this.state.viewport}
