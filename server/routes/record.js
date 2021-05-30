@@ -23,7 +23,6 @@ recordRoutes.route("/record").get(function (req, res) {
 recordRoutes.route("/last_documents/:num").get(function (req, res) {
   let db_connect = dbo.getDb("photos_db");
   let num = req.params.num;
-  console.log(num)
   db_connect
     .collection("photos")
     .find({}).sort({_id:-1}).limit(parseInt(num))
@@ -36,7 +35,6 @@ recordRoutes.route("/last_documents/:num").get(function (req, res) {
 recordRoutes.route("/record/:title").get(function (req, res) {
   let db_connect = dbo.getDb("photos_db");
   let ptitle = req.params.title;
-  console.log(ptitle)
   db_connect
     .collection("photos")
     .find({title: ptitle})

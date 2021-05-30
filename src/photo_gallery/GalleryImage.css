@@ -1,0 +1,18 @@
+.galleryImage{
+    width: 100%;
+    height: auto;
+}
+
+.galleryImageContainer {
+    max-width: 100%;
+}
+
+.galleryImageTitle{
+    position: absolute;
+    display: none;
+}
+
+a:hover ~ .galleryImageTitle {
+    display: block;
+    text-align: center;
+}
