@@ -13,13 +13,14 @@ nav {
 nav li {
     display: inline;
 }
+
 .home {
     padding-right: 13%;
 }
 
 nav li a {
     color: black;
-    padding: 50px;
+    padding: 5%;
     text-decoration: none;
     text-transform: uppercase;
 }

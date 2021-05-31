@@ -15,11 +15,12 @@ img {
 .gallery_title_bar {
     /* float: right; */
     margin-top: 20px;
-    margin-right: -6%;
-    padding-right: 20%;
+    /* margin-right: -6%; */
+    padding-right: 200px;
     padding-left: 20px;
     height: fit-content;
-    width: 10%;
+    width: fit-content;
+    /* width: 10%; */
     font-family: 'Newsreader', serif;
     font-weight: 700;
     color: white;

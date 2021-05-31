@@ -9,8 +9,8 @@ class MultiLocationViewer extends React.Component {
 
     this.state = {
       viewport: {
-        zoom: 5,
-        latitude: this.props.mid.lat,
+        zoom: 6,
+        latitude: this.props.mid.lat + 8,
         longitude: this.props.mid.lng,
         bearing: 0,
         pitch: 0

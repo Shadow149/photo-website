@@ -65,11 +65,11 @@ class Gallery extends React.Component {
     }
 
     return (
-      <div>
+      <div style={{width: '100%', height: '100%'}}>
+        <MultiLocationViewer width='100%' height='100%' mid={this.state.mid} photos={this.state.photos}/>
         <div className="locations_title_bar">
           Locations
         </div>
-        <MultiLocationViewer width='1000px' height='800px' mid={this.state.mid} photos={this.state.photos}/>
       </div>
     );
   }
