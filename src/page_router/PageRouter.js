@@ -11,6 +11,7 @@ import HomePage from '../home_page/HomePage';
 import PhotoInput from '../photo_backend/PhotoInput';
 import PhotoHighlight from '../photo_highlight/PhotoHighlight';
 import Gallery from '../photo_gallery/Gallery';
+import Locations from '../locations/Locations';
 import ScrollToTop from './ScrollToTop';
 
 
@@ -39,6 +40,9 @@ class PageRouter extends React.Component {
                 <Link to="/gallery">Gallery</Link>
               </li>
               <li>
+                <Link to="/locations">Locations</Link>
+              </li>
+              <li>
                 <Link to="/photoupload">Upload Photo</Link>
               </li>
             </ul>
@@ -49,6 +53,7 @@ class PageRouter extends React.Component {
             <Route path="/gallery" children={<Gallery/>} />
             <Route path="/photo/:photo" children={<PhotoHighlight/>} />
             <Route path="/photoupload" children={<PhotoInput/>} />
+            <Route path="/locations" children={<Locations/>} />
             <Route path="/" render={ () => <HomePage/>} />
           </Switch>
         

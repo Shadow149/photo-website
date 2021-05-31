@@ -1,9 +1,9 @@
 import React from 'react';
-import './Gallery.css';
+import './Locations.css';
 import { BrowserRouter as useParams, withRouter } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from 'axios'
-import GalleryImage from './GalleryImage'
+import MultiLocationViewer from './MultiLocationViewer'
 
 
 class Gallery extends React.Component {
@@ -12,8 +12,9 @@ class Gallery extends React.Component {
     super(props)
     this.state = {
       photoData: null,
+      photos: null,
       loading: true,
-      cols: 5
+      mid: null,
     };
   }
 
@@ -28,10 +29,26 @@ class Gallery extends React.Component {
     .get("http://localhost:3000/record/")
     .then((response) => {
       console.log(response.data)
+
+      let photos = []
+      let aLng = 0
+      let aLat = 0
+      for (let photo of response.data) {
+        if (photo.location.lat == null || photo.location.lng == null) {continue}
+        photos.push(photo);
+        aLat += photo.location.lat;
+        aLng += photo.location.lng;
+      }
+      aLat /= response.data.length;
+      aLng /= response.data.length;
+
       this.setState({
         photoData: response.data,
+        photos: photos,
         loading: false,
+        mid: {lat: aLat, lng: aLng}
       });
+
     })
     .catch(function (error) {
       console.log(error);
@@ -46,21 +63,13 @@ class Gallery extends React.Component {
         </div>
       );
     }
-    let photos = []
-    for (let photo of this.state.photoData) {
-      photos.push(<GalleryImage title={photo.title} url={photo.url}/>);
-    }
-    photos = photos.sort(() => Math.random() - 0.5)
 
     return (
       <div>
-        <div className="gallery_title_bar">
-          Gallery
+        <div className="locations_title_bar">
+          Locations
         </div>
-        <input type="number" value={this.state.cols} onChange={(e) => this.setState({cols: parseInt(e.target.value)})}></input>
-        <div className="photo_gallery" style={{columnCount: this.state.cols}}>
-          {photos}
-        </div>
+        <MultiLocationViewer width='1000px' height='800px' mid={this.state.mid} photos={this.state.photos}/>
       </div>
     );
   }

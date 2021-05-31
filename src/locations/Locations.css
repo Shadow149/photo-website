@@ -1,18 +1,4 @@
-.photo_gallery {
-    /* Prevent vertical gaps */
-    line-height: 0;
-    column-count:         5;
-    column-gap:           6px;  
-    /* float: none;
-    overflow: hidden; */
-}
-
-img {
-    margin: 3px;
-}
-
-
-.gallery_title_bar {
+.locations_title_bar {
     /* float: right; */
     margin-top: 20px;
     margin-right: -6%;
@@ -25,5 +11,5 @@ img {
     color: white;
     font-size: 80px;
     line-height: 100px;
-    background-color: #2dbd69;
+    background-color: #9b2dbd;
 }

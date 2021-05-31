@@ -1,0 +1,26 @@
+.info_popup_hidden {
+    display: none;
+}
+
+.info_popup_show {
+    width: fit-content;
+    height: fit-content;
+    text-align: left;
+    position: absolute;
+    background-color: white;
+    font-size: 40px;
+    padding: 10px;
+    font-family: 'Newsreader', serif;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.locationMarker {
+    cursor: pointer;
+}
+
+.locationLink {
+    text-decoration: none;
+    color: white;
+}
