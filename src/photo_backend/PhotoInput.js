@@ -32,7 +32,8 @@ class PhotoInput extends React.Component {
         shutterSpeed: '',
         aperture: '',
         foc: '',
-        iso: ''
+        iso: '',
+        time: '',
       },
       photoLoading: false,
       uploadLoading: false,
@@ -88,12 +89,14 @@ class PhotoInput extends React.Component {
     ).then( (averageColor) => {
         exifr.parse(file)
         .then(output => {
+          console.log(output)
           let exifData = {
             camera: output.Model,
             shutterSpeed: output.ExposureTime,
             aperture: output.FNumber,
             foc: output.FocalLength,
-            iso: output.ISO
+            iso: output.ISO,
+            time: output.CreateDate,
           };
           this.setState({
             file: URL.createObjectURL(file),
@@ -107,7 +110,8 @@ class PhotoInput extends React.Component {
             shutterSpeed: '',
             aperture: '',
             foc: '',
-            iso: ''
+            iso: '',
+            time: '',
           };
           this.setState({
             file: URL.createObjectURL(file),
@@ -170,9 +174,13 @@ class PhotoInput extends React.Component {
           uploadLoading: false,
           uploadMessage: 'Image failed to upload'
         });
+        return null;
       }
       return response.text();
     }).then((data) => {
+      if (data == null){
+        return;
+      }
       let img_url = JSON.parse(data)['secure_url'];
   
       const newPhoto = {
@@ -258,7 +266,8 @@ class PhotoInput extends React.Component {
                   Shutter Speed: {this.state.metaData.shutterSpeed !== '' ? 1/this.state.metaData.shutterSpeed : ''}<br></br>
                   Aperture: {this.state.metaData.aperture}<br></br>
                   Focal Length: {this.state.metaData.foc}<br></br>
-                  ISO: {this.state.metaData.iso}<br></br><br></br>
+                  ISO: {this.state.metaData.iso}<br></br>
+                  Time: {this.state.metaData.shutterSpeed !== '' ? (this.state.metaData.time.getFullYear() + ' ' + this.state.metaData.time.getTime()) : ''}<br></br><br></br>
                   Colour: {this.state.accentColour}
                 </p>
                 <label>Elevation: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({elevation: event.target.value})}></input><br></br>

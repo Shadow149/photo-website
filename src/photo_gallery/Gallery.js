@@ -12,7 +12,8 @@ class Gallery extends React.Component {
     super(props)
     this.state = {
       photoData: null,
-      loading: true
+      loading: true,
+      cols: 5
     };
   }
 
@@ -49,9 +50,12 @@ class Gallery extends React.Component {
     for (let photo of this.state.photoData) {
       photos.push(<GalleryImage title={photo.title} url={photo.url}/>);
     }
+    photos = photos.sort(() => Math.random() - 0.5)
+
     return (
       <div>
-        <div className="photo_gallery">
+        <input type="number" value={this.state.cols} onChange={(e) => this.setState({cols: parseInt(e.target.value)})}></input>
+        <div className="photo_gallery" style={{columnCount: this.state.cols}}>
           {photos}
         </div>
       </div>
