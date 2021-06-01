@@ -22,15 +22,20 @@
 
 .PhotoInput-PrevContainer {
     width: fit-content;
-    height: 100%;
+    height: fit-content;
 }
 
 .PhotoInput-Grid {
     display: grid;
     grid-column-gap: 50px;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 40% 30% 20%;
 }
 
+.formGrid {
+    display: grid;
+    grid-column-gap: 50px;
+    grid-template-columns: 10% auto;
+}
 
 
 .PhotoInput-TextInput {
@@ -51,4 +56,11 @@
 
 .gridItem {
     display: inline-grid;
+}
+
+.addPhoto {
+    height: 50px;
+    font-size: 20px;
+    align-items: center;
+    display: block;
 }

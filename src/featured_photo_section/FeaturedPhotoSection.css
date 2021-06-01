@@ -22,3 +22,14 @@
 .featured_photo {
     display: inline-grid;
 }
+@media screen and (max-width: 850px) {
+    .featured_photos_container {
+        align-items: center;
+        padding-left: 50px;
+        padding-right: 50px;
+        display: grid;
+        grid-row-gap: 3%;
+        grid-template-rows: 30% 30% 30% 30%;
+        grid-template-columns: 100%;
+    }
+}

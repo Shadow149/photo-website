@@ -250,33 +250,31 @@ class PhotoInput extends React.Component {
             <div className="PhotoInput-DataCol">
 
               <h1>Add Photo</h1>
+              <input type="file" name="file" onChange={this.onPhotoUpload}/>
               <form onSubmit={this.onSubmit}>
-              
-                <input type="file" name="file" onChange={this.onPhotoUpload}/>
-                <br></br>
-                <label>Title: </label><input className="PhotoInput-TextInput" onChange={event => this.setState({title: event.target.value})}></input>
-                <br></br>
-                <label>Animal: </label><input className="PhotoInput-TextInput" onChange={event => this.setState({animal: event.target.value})}></input>
-                <br></br>
-                <label>Description: </label><textarea className="PhotoInput-DescriptionInput" onChange={event => this.setState({desc: event.target.value})}></textarea>
-                <br></br>
-                <label>Meta data: </label>
-                <p>
-                  Camera: {this.state.metaData.camera}<br></br>
-                  Shutter Speed: {this.state.metaData.shutterSpeed !== '' ? 1/this.state.metaData.shutterSpeed : ''}<br></br>
-                  Aperture: {this.state.metaData.aperture}<br></br>
-                  Focal Length: {this.state.metaData.foc}<br></br>
-                  ISO: {this.state.metaData.iso}<br></br>
-                  Time: {this.state.metaData.shutterSpeed !== '' ? (this.state.metaData.time.getFullYear() + ' ' + this.state.metaData.time.getTime()) : ''}<br></br><br></br>
-                  Colour: {this.state.accentColour}
-                </p>
-                <label>Elevation: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({elevation: event.target.value})}></input><br></br>
-                <label>Distance: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({distance: event.target.value})}></input><br></br>
-                <label>Location: </label><br></br>
+                <div className='formGrid'>
+                  <label>Title: </label><input className="PhotoInput-TextInput" onChange={event => this.setState({title: event.target.value})}></input>
+                  <label>Animal: </label><input className="PhotoInput-TextInput" onChange={event => this.setState({animal: event.target.value})}></input>
+                  <label>Description: </label><textarea className="PhotoInput-DescriptionInput" onChange={event => this.setState({desc: event.target.value})}></textarea>
+                  <label>Meta data: </label>
+                  <p>
+                    Camera: {this.state.metaData.camera}<br></br>
+                    Shutter Speed: {this.state.metaData.shutterSpeed !== '' ? 1/this.state.metaData.shutterSpeed : ''}<br></br>
+                    Aperture: {this.state.metaData.aperture}<br></br>
+                    Focal Length: {this.state.metaData.foc}<br></br>
+                    ISO: {this.state.metaData.iso}<br></br>
+                    Time: {this.state.metaData.shutterSpeed !== '' ? (this.state.metaData.time.getFullYear() + ' ' + this.state.metaData.time.getTime()) : ''}
+                    Colour: {this.state.accentColour}
+                  </p>
+                  <label>Elevation: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({elevation: event.target.value})}></input>
+                  <label>Distance: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({distance: event.target.value})}></input>
+                  <label>Location: </label>
+                </div>
                 <LocationPicker onClick={this.onMapClick} mLat={this.state.marker.lat} mLng={this.state.marker.lng}/>
                 <input
                   type="submit"
                   value="Add Photo"
+                  className='addPhoto'
                 />
                 
               </form>
@@ -284,20 +282,18 @@ class PhotoInput extends React.Component {
           </div>
 
           <div className="gridItem">
-            <h2>Preview: </h2>
-            <ClimbingBoxLoader color={"#123abc"} loading={this.state.photoLoading} speedMultiplier={1} />
-            <br></br>
-            <div className="PhotoInput-PrevContainer" >
-              <img className="PhotoInput-ImagePrev" src={this.state.file} alt=''/>
-              <div className="PhotoInput-TitlePrev" style={{backgroundColor: this.state.accentColour}}>{this.state.title}</div>
+            <div>
+              <h2>Preview: </h2>
+              <ClipLoader color={"#123abc"} loading={this.state.photoLoading} speedMultiplier={1} />
+              <br></br>
+              <div className="PhotoInput-PrevContainer" >
+                <img className="PhotoInput-ImagePrev" src={this.state.file} alt=''/>
+                <div className="PhotoInput-TitlePrev" style={{backgroundColor: this.state.accentColour}}>{this.state.title}</div>
+              </div>
             </div>
           </div>
           <div className="gridItem">
             <HexColorPicker color={accentColour} onChange={this.handleChange} />
-
-            <div className="PhotoInput-Slider">
-              <SliderPicker  color={accentColour} onChange={this.handleChangeRC}/>
-            </div>
           </div>
 
         </div>
