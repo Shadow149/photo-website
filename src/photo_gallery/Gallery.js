@@ -48,7 +48,7 @@ class Gallery extends React.Component {
     }
     let photos = []
     for (let photo of this.state.photoData) {
-      photos.push(<GalleryImage title={photo.title} url={photo.url}/>);
+      photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour}/>);
     }
     photos = photos.sort(() => Math.random() - 0.5)
 
