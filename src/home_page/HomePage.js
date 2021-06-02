@@ -1,6 +1,8 @@
 import React from 'react';
 import './HomePage.css';
 import FeaturedPhotoSection from '../featured_photo_section/FeaturedPhotoSection';
+import MultiLocationViewer from '../locations/MultiLocationViewer'
+
 
 class HomePage extends React.Component {
 
@@ -11,6 +13,7 @@ class HomePage extends React.Component {
     }
   }
 
+ 
   render() {
     return (
       <div className="page">
@@ -27,6 +30,7 @@ class HomePage extends React.Component {
         <div className="featured_photos">
           <div className="featured_title">Featured Photos</div>
           <FeaturedPhotoSection />
+          {/* <MultiLocationViewer width='100%' height='50%' mid={this.state.mid} photos={this.state.photos}/> */}
         </div>
         
       </div>

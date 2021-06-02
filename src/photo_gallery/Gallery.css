@@ -52,9 +52,27 @@ img {
     background-position: 10px 10px; 
     background-size: 20px 20px;
     background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
+    padding: 12px 10px 12px 40px;
     margin: 10px;
 }
+
+.searchInput::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 1em;
+    width: 1em;
+    border-radius: 50em;
+    background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg);
+    background-size: contain;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.searchInput:focus::-webkit-search-cancel-button {
+    opacity: .3;
+    pointer-events: all;
+    cursor: pointer;
+}
+  
 
 .colsInput {
     width: 200px;

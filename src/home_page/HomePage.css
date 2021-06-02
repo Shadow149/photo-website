@@ -1,6 +1,22 @@
 .page {
   height:100%;
 }
+
+@keyframes bioEnter {
+  0%   {
+      transform: translate(0px,-70px);
+      opacity: 0;
+  }
+  /* 80% {
+      opacity: 0;
+  } */
+  100% {
+      opacity: 1;
+      transform: translate(0px,0px);
+  }
+}
+
+
 .bio {
   color: white;
   font-family: 'Newsreader', serif;
@@ -9,7 +25,10 @@
   padding-top: 10%;
   padding-right: 10%;
   width: 500px;
+  animation-name: bioEnter;
+  animation-duration: 1s;
 }
+
 
 .name_title {
   margin: 0;

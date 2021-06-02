@@ -19,9 +19,7 @@ class Gallery extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      photoData: this.getPhotos(),
-    });
+    this.getPhotos();
   }
 
   getPhotos = () => {
@@ -44,7 +42,7 @@ class Gallery extends React.Component {
     .get("http://localhost:3000/record/animal/" + e.target.value)
     .then((response) => {
       if (response.data.length == 0) {
-        this.getPhotos();
+        this.setState({photoData: []});
       } else {
         this.setState({
           photoData: response.data,
@@ -62,7 +60,7 @@ class Gallery extends React.Component {
     .get("http://localhost:3000/record/title/" + e.target.value)
     .then((response) => {
       if (response.data.length == 0) {
-        this.getPhotos();
+        this.setState({photoData: []})
       } else {
         this.setState({
           photoData: response.data,
@@ -107,10 +105,10 @@ class Gallery extends React.Component {
         <div className="searches">
           <input className="colsInput" type="number" value={this.state.cols} onChange={(e) => this.setState({cols: parseInt(e.target.value)})}></input>
           <div>
-            <label className='searchLabel'>Title</label> <input  className='searchInput' onChange={this.queryTitle}></input>
+            <label className='searchLabel'>Title</label> <input type="search" className='searchInput' onChange={this.queryTitle}></input>
           </div>
           <div>
-            <label className='searchLabel'>Animal</label> <input className='searchInput' onChange={this.queryAnimal}></input>
+            <label className='searchLabel'>Animal</label> <input type="search" className='searchInput' onChange={this.queryAnimal}></input>
           </div>
         </div>
         {/* <label></label> <input type="number" value={this.state.cols}></input> */}
