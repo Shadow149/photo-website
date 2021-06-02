@@ -14,10 +14,12 @@
     font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
+    z-index: 999;
 }
 
 .locationMarker {
     cursor: pointer;
+    z-index: 99;
 }
 
 .locationLink {
