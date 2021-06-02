@@ -31,7 +31,7 @@ class PhotoHighlight extends React.Component {
 
   getPhotoData = ptitle => {
     axios
-    .get("http://localhost:3000/record/" + ptitle)
+    .get("http://localhost:3000/record/title/" + ptitle)
     .then((response) => {
       console.log(response.data)
       this.setState({

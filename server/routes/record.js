@@ -32,12 +32,24 @@ recordRoutes.route("/last_documents/:num").get(function (req, res) {
     });
 });
 
-recordRoutes.route("/record/:title").get(function (req, res) {
+recordRoutes.route("/record/title/:title").get(function (req, res) {
   let db_connect = dbo.getDb("photos_db");
   let ptitle = req.params.title;
   db_connect
     .collection("photos")
-    .find({title: ptitle})
+    .find({title: { $regex: new RegExp('^.*'+ptitle+'.*','i') } })
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
+recordRoutes.route("/record/animal/:animal").get(function (req, res) {
+  let db_connect = dbo.getDb("photos_db");
+  let panimal = req.params.animal;
+  db_connect
+    .collection("photos")
+    .find( { animal: { $regex: new RegExp('^.*'+panimal+'.*','i') } } )
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
