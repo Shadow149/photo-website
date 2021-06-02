@@ -22,7 +22,7 @@
     font-size: 30px;
     color: white;
     margin-left: 3px;
-    transform: translate(0px,-62px);
+    transform: translate(0px,13px);
 }
 
 .galleryImageContainer:hover > .galleryImageTitle {
