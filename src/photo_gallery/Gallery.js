@@ -12,6 +12,7 @@ class Gallery extends React.Component {
     super(props)
     this.state = {
       photoData: null,
+      shuffledPhotoData: null,
       loading: true,
       photos_shuffled: false,
       cols: 5
@@ -28,6 +29,7 @@ class Gallery extends React.Component {
     .then((response) => {
       this.setState({
         photoData: response.data,
+        shuffledPhotoData: response.data,
         loading: false,
       });
     })
@@ -37,39 +39,48 @@ class Gallery extends React.Component {
   };
 
   queryAnimal = (e) => {
-    if (e.target.value.length < 1) { this.getPhotos(); return; }
-    axios
-    .get("http://localhost:3000/record/animal/" + e.target.value)
-    .then((response) => {
-      if (response.data.length == 0) {
-        this.setState({photoData: []});
-      } else {
-        this.setState({
-          photoData: response.data,
-        });
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    if (e.target.value.length === 0) { this.setState({shuffledPhotoData: this.state.photoData}); return;}
+
+    let regex = new RegExp('^.*'+e.target.value+'.*','i');
+    let shuffledPhotoData = this.state.photoData.filter(element =>  regex.exec(element.animal) != null )
+    this.setState({shuffledPhotoData: shuffledPhotoData});
+    // axios
+    // .get("http://localhost:3000/record/animal/" + e.target.value)
+    // .then((response) => {
+    //   if (response.data.length == 0) {
+    //     this.setState({photoData: []});
+    //   } else {
+    //     this.setState({
+    //       photoData: response.data,
+    //     });
+    //   }
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
   }
 
   queryTitle = (e) => {
-    if (e.target.value.length < 1) { this.getPhotos(); return; }
-    axios
-    .get("http://localhost:3000/record/title/" + e.target.value)
-    .then((response) => {
-      if (response.data.length == 0) {
-        this.setState({photoData: []})
-      } else {
-        this.setState({
-          photoData: response.data,
-        });
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    if (e.target.value.length === 0) { this.setState({shuffledPhotoData: this.state.photoData}); return;}
+
+    let regex = new RegExp('^.*'+e.target.value+'.*','i');
+    let shuffledPhotoData = this.state.photoData.filter(element =>  regex.exec(element.title) != null )
+    this.setState({shuffledPhotoData: shuffledPhotoData});
+    // if (e.target.value.length < 1) { this.getPhotos(); return; }
+    // axios
+    // .get("http://localhost:3000/record/title/" + e.target.value)
+    // .then((response) => {
+    //   if (response.data.length == 0) {
+    //     this.setState({photoData: []})
+    //   } else {
+    //     this.setState({
+    //       photoData: response.data,
+    //     });
+    //   }
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
   }
 
   shuffle = (photos) => {return photos.sort(() => Math.random() - 0.5)}
@@ -82,13 +93,12 @@ class Gallery extends React.Component {
         </div>
       );
     }
-
     let photos = []
-    for (let photo of this.state.photoData) {
-      photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour}/>);
+    for (let photo of this.state.shuffledPhotoData) {
+      photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour} r_width={parseInt(2000/this.state.cols)}/>);
     }
 
-    // console.log(this.state.photos_shuffled)
+    console.log(photos)
 
     // if (!this.state.photos_shuffled){
     //   console.log('shuffle', this.state.photoData)
@@ -103,7 +113,11 @@ class Gallery extends React.Component {
         </div>
 
         <div className="searches">
-          <input className="colsInput" type="number" value={this.state.cols} onChange={(e) => this.setState({cols: parseInt(e.target.value)})}></input>
+          {/* <input className="colsInput" type="number" value={this.state.cols} onChange={(e) => this.setState({cols: parseInt(e.target.value)})}></input> */}
+          <div>
+            <label className='searchLabel'>Zoom</label>
+            <input  className="colsInput" type="range" min="1" max="7" value={this.state.cols} step="1" onChange={(e) => this.setState({cols: parseInt(e.target.value)})}/>
+          </div>
           <div>
             <label className='searchLabel'>Title</label> <input type="search" className='searchInput' onChange={this.queryTitle}></input>
           </div>
