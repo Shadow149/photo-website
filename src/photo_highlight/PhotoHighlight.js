@@ -45,6 +45,7 @@ function PhotoHighlight (props) {
     .catch(function (error) {
       console.log(error);
     });
+
   };
 
   if (loading){

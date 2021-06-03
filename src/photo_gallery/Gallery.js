@@ -11,6 +11,8 @@ function Gallery (props) {
   const [photoData, setPhotoData] = useState(null);
   const [shuffledPhotoData, setShuffledPhotoData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadingImages, setLoadingImages] = useState(0);
+  const [imgLoading, setImgLoading] = useState(true);
   const [cols, setCols] = useState(5);
 
   useEffect(() => getPhotos(),[]);
@@ -44,21 +46,44 @@ function Gallery (props) {
     setShuffledPhotoData(shuffledPhotoData);
   }
 
-  // const shuffle = (photos) => {return photos.sort(() => Math.random() - 0.5)}
+  const galleryImageLoaded = () => {
+    setLoadingImages(loadingImages + 1);
+    if (loadingImages == photoData.length - 1){
+      setImgLoading(false);
+    }
+  }
 
-  if (loading){
+  const galleryView = () => {
+    let gallery;
+
+    if (loading) {
+      gallery = null;
+    } else {
+      let photos = []
+    
+      for (let photo of shuffledPhotoData) {
+        photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour} r_width={500} onLoad={galleryImageLoaded}/>);
+      }
+
+      gallery = (
+        <div className="photo_gallery" style={{columnCount: cols, display: imgLoading ? 'none' : 'block'}}>
+          {photos}
+        </div>
+      );
+
+    }
+
     return (
-      <div className="highlight_loader">
-        <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
+      <div>
+        <div className="highlight_loader" style={imgLoading ? {} : {display: 'none'}}>
+          <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
+        </div>
+        {gallery}
       </div>
     );
   }
 
-  let photos = []
-
-  for (let photo of shuffledPhotoData) {
-    photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour} r_width={500}/>);
-  }
+  // const shuffle = (photos) => {return photos.sort(() => Math.random() - 0.5)}
 
   return (
     <div>
@@ -79,11 +104,7 @@ function Gallery (props) {
           <label className='searchLabel'>Animal</label> <input type="search" className='searchInput' onChange={queryAnimal}></input>
         </div>
       </div>
-      {/* <label></label> <input type="number" value={cols}></input> */}
-
-      <div className="photo_gallery" style={{columnCount: cols}}>
-        {photos}
-      </div>
+      {galleryView()}
     </div>
   );
   

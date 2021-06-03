@@ -13,7 +13,7 @@ export default function Photo (props) {
     return props.url
   }
 
-  return <img className={props.className} src={resize(props.r_width)} alt=''/>;
+  return <img className={props.className} src={resize(props.r_width)} alt='' onLoad={props.onLoad}/>;
   
 }
 

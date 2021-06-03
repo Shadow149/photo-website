@@ -10,7 +10,7 @@ export default function GalleryImage (props) {
     <div className="galleryImageContainer">
       <div className='galleryImageTitle' style={{backgroundColor: props.accentColour}} >{props.title}</div>
       <Link to={"/photo/"+ props.title} >
-        <Photo className='galleryImage' url={props.url} r_width={props.r_width}/>
+        <Photo className='galleryImage' url={props.url} r_width={props.r_width} onLoad={props.onLoad}/>
       </Link>
     </div>
   );
