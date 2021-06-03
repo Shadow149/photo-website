@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './Gallery.css';
 import { BrowserRouter as useParams, withRouter } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -6,133 +6,87 @@ import axios from 'axios'
 import GalleryImage from './GalleryImage'
 
 
-class Gallery extends React.Component {
+function Gallery (props) {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      photoData: null,
-      shuffledPhotoData: null,
-      loading: true,
-      photos_shuffled: false,
-      cols: 5
-    };
-  }
+  const [photoData, setPhotoData] = useState(null);
+  const [shuffledPhotoData, setShuffledPhotoData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [cols, setCols] = useState(5);
 
-  componentDidMount() {
-    this.getPhotos();
-  }
+  useEffect(() => getPhotos(),[]);
 
-  getPhotos = () => {
+  const getPhotos = () => {
     axios
     .get("http://localhost:3000/record/")
     .then((response) => {
-      this.setState({
-        photoData: response.data,
-        shuffledPhotoData: response.data,
-        loading: false,
-      });
+      setPhotoData(response.data);
+      setShuffledPhotoData(response.data);
+      setLoading(false);
     })
     .catch(function (error) {
       console.log(error);
     });
   };
 
-  queryAnimal = (e) => {
-    if (e.target.value.length === 0) { this.setState({shuffledPhotoData: this.state.photoData}); return;}
+  const queryAnimal = (e) => {
+    if (e.target.value.length === 0) { setShuffledPhotoData(photoData); return;}
 
     let regex = new RegExp('^.*'+e.target.value+'.*','i');
-    let shuffledPhotoData = this.state.photoData.filter(element =>  regex.exec(element.animal) != null )
-    this.setState({shuffledPhotoData: shuffledPhotoData});
-    // axios
-    // .get("http://localhost:3000/record/animal/" + e.target.value)
-    // .then((response) => {
-    //   if (response.data.length == 0) {
-    //     this.setState({photoData: []});
-    //   } else {
-    //     this.setState({
-    //       photoData: response.data,
-    //     });
-    //   }
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
+    let shuffledPhotoData = photoData.filter(element =>  regex.exec(element.animal) != null )
+    setShuffledPhotoData(shuffledPhotoData);
   }
 
-  queryTitle = (e) => {
-    if (e.target.value.length === 0) { this.setState({shuffledPhotoData: this.state.photoData}); return;}
+  const queryTitle = (e) => {
+    if (e.target.value.length === 0) { setShuffledPhotoData(photoData); return;}
 
     let regex = new RegExp('^.*'+e.target.value+'.*','i');
-    let shuffledPhotoData = this.state.photoData.filter(element =>  regex.exec(element.title) != null )
-    this.setState({shuffledPhotoData: shuffledPhotoData});
-    // if (e.target.value.length < 1) { this.getPhotos(); return; }
-    // axios
-    // .get("http://localhost:3000/record/title/" + e.target.value)
-    // .then((response) => {
-    //   if (response.data.length == 0) {
-    //     this.setState({photoData: []})
-    //   } else {
-    //     this.setState({
-    //       photoData: response.data,
-    //     });
-    //   }
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
+    let shuffledPhotoData = photoData.filter(element =>  regex.exec(element.title) != null )
+    setShuffledPhotoData(shuffledPhotoData);
   }
 
-  shuffle = (photos) => {return photos.sort(() => Math.random() - 0.5)}
+  // const shuffle = (photos) => {return photos.sort(() => Math.random() - 0.5)}
 
-  render() {
-    if (this.state.loading){
-      return (
-        <div className="highlight_loader">
-          <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
-        </div>
-      );
-    }
-    let photos = []
-    for (let photo of this.state.shuffledPhotoData) {
-      photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour} r_width={parseInt(2000/this.state.cols)}/>);
-    }
-
-    console.log(photos)
-
-    // if (!this.state.photos_shuffled){
-    //   console.log('shuffle', this.state.photoData)
-    //   photos = this.shuffle(photos)
-    //   this.setState({photos_shuffled: true})
-    // }
-
+  if (loading){
     return (
-      <div>
-        <div className="gallery_title_bar">
-          Gallery
-        </div>
-
-        <div className="searches">
-          {/* <input className="colsInput" type="number" value={this.state.cols} onChange={(e) => this.setState({cols: parseInt(e.target.value)})}></input> */}
-          <div>
-            <label className='searchLabel'>Zoom</label>
-            <input  className="colsInput" type="range" min="1" max="7" value={this.state.cols} step="1" onChange={(e) => this.setState({cols: parseInt(e.target.value)})}/>
-          </div>
-          <div>
-            <label className='searchLabel'>Title</label> <input type="search" className='searchInput' onChange={this.queryTitle}></input>
-          </div>
-          <div>
-            <label className='searchLabel'>Animal</label> <input type="search" className='searchInput' onChange={this.queryAnimal}></input>
-          </div>
-        </div>
-        {/* <label></label> <input type="number" value={this.state.cols}></input> */}
-
-        <div className="photo_gallery" style={{columnCount: this.state.cols}}>
-          {photos}
-        </div>
+      <div className="highlight_loader">
+        <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
       </div>
     );
   }
+
+  let photos = []
+
+  for (let photo of shuffledPhotoData) {
+    photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour} r_width={500}/>);
+  }
+
+  return (
+    <div>
+      <div className="gallery_title_bar">
+        Gallery
+      </div>
+
+      <div className="searches">
+        {/* <input className="colsInput" type="number" value={cols} onChange={(e) => this.setState({cols: parseInt(e.target.value)})}></input> */}
+        <div>
+          <label className='searchLabel'>Zoom</label>
+          <input  className="colsInput" type="range" min="1" max="7" value={cols} step="1" onChange={(e) => setCols(parseInt(e.target.value))}/>
+        </div>
+        <div>
+          <label className='searchLabel'>Title</label> <input type="search" className='searchInput' onChange={queryTitle}></input>
+        </div>
+        <div>
+          <label className='searchLabel'>Animal</label> <input type="search" className='searchInput' onChange={queryAnimal}></input>
+        </div>
+      </div>
+      {/* <label></label> <input type="number" value={cols}></input> */}
+
+      <div className="photo_gallery" style={{columnCount: cols}}>
+        {photos}
+      </div>
+    </div>
+  );
+  
   
 }
 

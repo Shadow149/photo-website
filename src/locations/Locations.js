@@ -1,30 +1,23 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Locations.css';
 import { BrowserRouter as useParams, withRouter } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from 'axios'
 import MultiLocationViewer from './MultiLocationViewer'
+import userEvent from '@testing-library/user-event';
 
 
-class Gallery extends React.Component {
+function Locations (props) {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      photoData: null,
-      photos: null,
-      loading: true,
-      mid: null,
-    };
-  }
+  const [photos, setPhotos] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [mid, setMid] = useState(null);
+  
+  useEffect(() => {
+    getPhotos();
+  }, []);
 
-  componentDidMount() {
-    this.setState({
-      photoData: this.getPhotos(),
-    });
-  }
-
-  getPhotos = () => {
+  const getPhotos = () => {
     axios
     .get("http://localhost:3000/record/")
     .then((response) => {
@@ -42,12 +35,12 @@ class Gallery extends React.Component {
       aLat /= response.data.length;
       aLng /= response.data.length;
 
-      this.setState({
-        photoData: response.data,
-        photos: photos,
-        loading: false,
-        mid: {lat: aLat, lng: aLng}
+      setPhotos(photos);
+      setMid({
+        lat: aLat, 
+        lng: aLng
       });
+      setLoading(false);      
 
     })
     .catch(function (error) {
@@ -55,25 +48,24 @@ class Gallery extends React.Component {
     });
   };
 
-  render() {
-    if (this.state.loading){
-      return (
-        <div className="highlight_loader">
-          <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
-        </div>
-      );
-    }
-
+  if (loading){
     return (
-      <div style={{width: '100%', height: '100%'}}>
-        <MultiLocationViewer width='100%' height='100%' mid={this.state.mid} photos={this.state.photos}/>
-        <div className="locations_title_bar">
-          Locations
-        </div>
+      <div className="highlight_loader">
+        <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
       </div>
     );
   }
+
+  return (
+    <div style={{width: '100%', height: '100%'}}>
+      <MultiLocationViewer width='100%' height='100%' mid={mid} photos={photos}/>
+      <div className="locations_title_bar">
+        Locations
+      </div>
+    </div>
+  );
+  
   
 }
 
-export default withRouter(Gallery);
+export default withRouter(Locations);

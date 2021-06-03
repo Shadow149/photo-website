@@ -6,30 +6,23 @@ import Photo from '../photo/Photo'
 
 
 
-class InteractiveMarker extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   showInfo: false,
-    // }
-  }
-
-  render() {
-    let info_class = (this.props.showInfo) ? 'info_popup_show' : 'info_popup_hidden'
-    return (
-      <div>
-        <Marker latitude={this.props.photo.location.lat} longitude={this.props.photo.location.lng} offsetLeft={-15} offsetTop={-30}>
-          <img className='locationMarker' onClick={this.props.onClick} src={process.env.PUBLIC_URL + "../marker.png"} width="30px" height="30px"/>
-            <div className={info_class} style={{backgroundColor: this.props.photo.accentColour}}>
-              <a href={"/photo/"+ this.props.photo.title} className='locationLink'>
-                {this.props.photo.title}<br></br>
-                <Photo className='galleryImage' url={this.props.photo.url} r_width="400"/>
-              </a>
-            </div>
-        </Marker>
-      </div>
-    );
-  }
+function InteractiveMarker (props) {
+  
+  let info_class = (props.showInfo) ? 'info_popup_show' : 'info_popup_hidden'
+  return (
+    <div>
+      <Marker latitude={props.photo.location.lat} longitude={props.photo.location.lng} offsetLeft={-15} offsetTop={-30}>
+        <img className='locationMarker' onClick={props.onClick} src={process.env.PUBLIC_URL + "../marker.png"} width="30px" height="30px"/>
+          <div className={info_class} style={{backgroundColor: props.photo.accentColour}}>
+            <a href={"/photo/"+ props.photo.title} className='locationLink'>
+              {props.photo.title}<br></br>
+              <Photo className='galleryImage' url={props.photo.url} r_width="400"/>
+            </a>
+          </div>
+      </Marker>
+    </div>
+  );
+  
 }
 
 export default InteractiveMarker;

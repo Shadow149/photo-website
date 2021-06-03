@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './PhotoInput.css';
 import { HexColorPicker } from "react-colorful";
 import { SliderPicker  } from 'react-color';
@@ -11,52 +11,46 @@ import LocationPicker from './LocationPicker'
 import ClipLoader from "react-spinners/ClipLoader";
 
 
-class PhotoInput extends React.Component {
+function PhotoInput (props) {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      accentColour: '#ffffff',
-      title: '',
-      animal: '',
-      desc: '',
-      elevation: 0,
-      distance: 0,
-      marker: {
-        lat: null,
-        lng: null,
-      },
-      imgFile: null,
-      metaData: {
-        camera: '',
-        shutterSpeed: '',
-        aperture: '',
-        foc: '',
-        iso: '',
-        time: '',
-      },
-      photoLoading: false,
-      uploadLoading: false,
-      uploadState: 1,
-      uploadMessage: '',
-    };
-    this.onPhotoUpload = this.onPhotoUpload.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-  }
+  const [accentColour, setAccentColour] = useState('#ffffff');
+  const [title, setTitle] = useState('');
+  const [animal, setAnimal] = useState('');
+  const [desc, setDesc] = useState('');
+  const [elevation, setElevation] = useState(0);
+  const [distance, setDistance] = useState(0);
+  const [marker, setMarker] = useState({
+    lat: null,
+    lng: null,
+  });
+  const [imgFile, setImgFile] = useState(null);
+  const [metaData, setMetaData] = useState({
+    camera: '',
+    shutterSpeed: '',
+    aperture: '',
+    foc: '',
+    iso: '',
+    time: '',
+  });
+  const [photoLoading, setPhotoLoading] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [uploadState, setUploadState] = useState(1);
+  const [uploadMessage, setUploadMessage] = useState('');
 
-  componentToHex (c) {
-    var hex = parseInt(c).toString(16);
+  const componentToHex = c => {
+    let hex = parseInt(c).toString(16);
     return hex.length === 1 ? "0" + hex : hex;
   }
   
-  rgbToHex (r, g, b) {
-    return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
+  const rgbToHex = (r, g, b) => {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
   }
 
-  getAveragePixelValue(img){
+  const getAveragePixelValue = img => {
     let width = img.bitmap.width;
     let height = img.bitmap.height;
     let average = [0,0,0];
+
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         let pixel = jimp.intToRGBA(img.getPixelColor(x, y));
@@ -70,11 +64,11 @@ class PhotoInput extends React.Component {
     average[1] /= height*width
     average[2] /= height*width
 
-    return this.rgbToHex(average[0],average[1],average[2])
+    return rgbToHex(average[0],average[1],average[2])
   }
 
-  onPhotoUpload (event) {
-    this.setState({photoLoading: true});
+  const onPhotoUpload = event => {
+    setPhotoLoading(true);
     let file = event.target.files[0]    
       
     jimp.read(String(URL.createObjectURL(file)))
@@ -84,12 +78,12 @@ class PhotoInput extends React.Component {
         img
           .scale(ratio, jimp.AUTO)
           .blur(25);
-        return this.getAveragePixelValue(img);
-      }
-    ).then( (averageColor) => {
+        return getAveragePixelValue(img);
+      })
+    .then( (averageColor) => {
         exifr.parse(file)
         .then(output => {
-          console.log(output)
+
           let exifData = {
             camera: output.Model,
             shutterSpeed: output.ExposureTime,
@@ -98,12 +92,12 @@ class PhotoInput extends React.Component {
             iso: output.ISO,
             time: output.CreateDate,
           };
-          this.setState({
-            file: URL.createObjectURL(file),
-            metaData: exifData,
-            accentColour: averageColor,
-            photoLoading: false
-          });
+
+          setImgFile(URL.createObjectURL(file))
+          setMetaData(exifData)
+          setAccentColour(averageColor)
+          setPhotoLoading(false)
+
         }).catch(() => {
           let exifData = {
             camera: '',
@@ -113,18 +107,18 @@ class PhotoInput extends React.Component {
             iso: '',
             time: '',
           };
-          this.setState({
-            file: URL.createObjectURL(file),
-            metaData: exifData,
-            accentColour: averageColor,
-            photoLoading: false
-          });
+
+          setImgFile(URL.createObjectURL(file))
+          setMetaData(exifData)
+          setAccentColour(averageColor)
+          setPhotoLoading(false)
+
         })
       }
     );
   } 
 
-  generateCloudinarySignature(time, public_id){
+  const generateCloudinarySignature = (time, public_id) => {
     // Generate signature
     let string = "public_id="+public_id+"&timestamp="+time+process.env.REACT_APP_CLOUDINARY_API_SECRET
     console.log(string)
@@ -142,7 +136,7 @@ class PhotoInput extends React.Component {
     return sig;
   }
 
-  onSubmit(e) {
+  const onSubmit = e => {
     e.preventDefault();
 
     const file = document.querySelector("[type=file]").files[0];
@@ -153,27 +147,23 @@ class PhotoInput extends React.Component {
     formData.append("api_key", process.env.REACT_APP_CLOUDINARY_API_KEY);
     
     let time = Date.now();
-    let public_id = this.state.title+'_'+time;
+    let public_id = title+'_'+time;
 
     formData.append("timestamp", time);
     formData.append("public_id", public_id);
     
-    formData.append("signature", this.generateCloudinarySignature(time, public_id));
+    formData.append("signature", generateCloudinarySignature(time, public_id));
 
-    this.setState({
-      uploadLoading: true,
-    });
+    setUploadLoading(true);
 
     fetch(url, {
       method: "POST",
       body: formData
     }).then((response) => {
       if (!response.ok) {
-        this.setState({
-          uploadState: 0,
-          uploadLoading: false,
-          uploadMessage: 'Image failed to upload'
-        });
+        setUploadState(0);
+        setUploadLoading(false);
+        setUploadMessage('Image failed to upload');
         return null;
       }
       return response.text();
@@ -184,122 +174,112 @@ class PhotoInput extends React.Component {
       let img_url = JSON.parse(data)['secure_url'];
   
       const newPhoto = {
-        title: this.state.title,
-        accentColour: this.state.accentColour,
+        title: title,
+        accentColour: accentColour,
         url: img_url,
-        animal: this.state.animal,
-        desc: this.state.desc,
-        elevation: this.state.elevation,
-        distance: this.state.distance,
-        location: this.state.marker,
-        metaData: this.state.metaData,
+        animal: animal,
+        desc: desc,
+        elevation: elevation,
+        distance: distance,
+        location: marker,
+        metaData: metaData,
       };
   
       axios
         .post("http://localhost:3000/record/add", newPhoto)
         .then((res) => {
           if (res.status != 200) {
-            this.setState({
-              uploadState: 0,
-              uploadLoading: false,
-              uploadMessage: 'Database entry failed'
-            });
+            setUploadState(0);
+            setUploadLoading(false);
+            setUploadMessage('Database entry failed');
           }
-          this.setState({
-            uploadState: 1,
-            uploadLoading: false,
-            uploadMessage: 'Upload Successful!'
-          });
-          console.log(res)
+          setUploadState(1);
+          setUploadLoading(false);
+          setUploadMessage('Upload Successful!');
         });
 
     }).catch(function (error) {
       console.log(error);
     });
 
-
   }
   
-  handleChange = color => this.setState({ accentColour: color })
-  handleChangeRC = color => this.setState({ accentColour: color.hex })
+  const handleChange = color => setAccentColour(color)
+  const handleChangeRC = color => setAccentColour(color.hex)
 
-  onMapClick = event => {
-    this.setState({
-      marker: {
-        lat: event.lngLat[1],
-        lng: event.lngLat[0],
-      },
+  const onMapClick = event => {
+    setMarker({
+      lat: event.lngLat[1],
+      lng: event.lngLat[0],
     });
   };
   
-  render() {
-    const { accentColour } = this.state
-    if (this.state.uploadLoading){
-      return (
-        <div className="highlight_loader">
-          <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
-        </div>
-      );
-    }
+  if (uploadLoading){
     return (
-      <div className="PhotoInput-title">
-        <h2 style={{color: this.state.uploadState ? "rgb(153, 233, 78)" : "rgb(241, 56, 56)"}}>{this.state.uploadMessage}</h2>
-        <div className="PhotoInput-Grid">
-
-          <div className="gridItem">
-            <div className="PhotoInput-DataCol">
-
-              <h1>Add Photo</h1>
-              <input type="file" name="file" onChange={this.onPhotoUpload}/>
-              <form onSubmit={this.onSubmit}>
-                <div className='formGrid'>
-                  <label>Title: </label><input className="PhotoInput-TextInput" onChange={event => this.setState({title: event.target.value})}></input>
-                  <label>Animal: </label><input className="PhotoInput-TextInput" onChange={event => this.setState({animal: event.target.value})}></input>
-                  <label>Description: </label><textarea className="PhotoInput-DescriptionInput" onChange={event => this.setState({desc: event.target.value})}></textarea>
-                  <label>Meta data: </label>
-                  <p>
-                    Camera: {this.state.metaData.camera}<br></br>
-                    Shutter Speed: {this.state.metaData.shutterSpeed !== '' ? 1/this.state.metaData.shutterSpeed : ''}<br></br>
-                    Aperture: {this.state.metaData.aperture}<br></br>
-                    Focal Length: {this.state.metaData.foc}<br></br>
-                    ISO: {this.state.metaData.iso}<br></br>
-                    Time: {this.state.metaData.shutterSpeed !== '' ? (this.state.metaData.time.getFullYear() + ' ' + this.state.metaData.time.getTime()) : ''}
-                    Colour: {this.state.accentColour}
-                  </p>
-                  <label>Elevation: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({elevation: event.target.value})}></input>
-                  <label>Distance: </label><input type="number" className="PhotoInput-TextInput" onChange={event => this.setState({distance: event.target.value})}></input>
-                  <label>Location: </label>
-                </div>
-                <LocationPicker onClick={this.onMapClick} mLat={this.state.marker.lat} mLng={this.state.marker.lng}/>
-                <input
-                  type="submit"
-                  value="Add Photo"
-                  className='addPhoto'
-                />
-                
-              </form>
-            </div>
-          </div>
-
-          <div className="gridItem">
-            <div>
-              <h2>Preview: </h2>
-              <ClipLoader color={"#123abc"} loading={this.state.photoLoading} speedMultiplier={1} />
-              <br></br>
-              <div className="PhotoInput-PrevContainer" >
-                <img className="PhotoInput-ImagePrev" src={this.state.file} alt=''/>
-                <div className="PhotoInput-TitlePrev" style={{backgroundColor: this.state.accentColour}}>{this.state.title}</div>
-              </div>
-            </div>
-          </div>
-          <div className="gridItem">
-            <HexColorPicker color={accentColour} onChange={this.handleChange} />
-          </div>
-
-        </div>
+      <div className="highlight_loader">
+        <ClipLoader color={"#123abc"} speedMultiplier={1.3} size={150}/>
       </div>
     );
   }
+  return (
+    <div className="PhotoInput-title">
+      <h2 style={{color: uploadState ? "rgb(153, 233, 78)" : "rgb(241, 56, 56)"}}>{uploadMessage}</h2>
+      <div className="PhotoInput-Grid">
+
+        <div className="gridItem">
+          <div className="PhotoInput-DataCol">
+
+            <h1>Add Photo</h1>
+            <input type="file" name="file" onChange={onPhotoUpload}/>
+            <form onSubmit={onSubmit}>
+              <div className='formGrid'>
+                <label>Title: </label><input className="PhotoInput-TextInput" onChange={event => setTitle(event.target.value)}></input>
+                <label>Animal: </label><input className="PhotoInput-TextInput" onChange={event => setAnimal(event.target.value)}></input>
+                <label>Description: </label><textarea className="PhotoInput-DescriptionInput" onChange={event => setDesc(event.target.value)}></textarea>
+                <label>Meta data: </label>
+                <p>
+                  Camera: {metaData.camera}<br></br>
+                  Shutter Speed: {metaData.shutterSpeed !== '' ? 1/metaData.shutterSpeed : ''}<br></br>
+                  Aperture: {metaData.aperture}<br></br>
+                  Focal Length: {metaData.foc}<br></br>
+                  ISO: {metaData.iso}<br></br>
+                  Time: {metaData.shutterSpeed !== '' ? (metaData.time.getFullYear() + ' ' + metaData.time.getTime()) : ''}
+                  Colour: {accentColour}
+                </p>
+                <label>Elevation: </label><input type="number" className="PhotoInput-TextInput" onChange={event => setElevation(event.target.value)}></input>
+                <label>Distance: </label><input type="number" className="PhotoInput-TextInput" onChange={event => setDistance(event.target.value)}></input>
+                <label>Location: </label>
+              </div>
+              <LocationPicker onClick={onMapClick} mLat={marker.lat} mLng={marker.lng}/>
+              <input
+                type="submit"
+                value="Add Photo"
+                className='addPhoto'
+              />
+              
+            </form>
+          </div>
+        </div>
+
+        <div className="gridItem">
+          <div>
+            <h2>Preview: </h2>
+            <ClipLoader color={"#123abc"} loading={photoLoading} speedMultiplier={1} />
+            <br></br>
+            <div className="PhotoInput-PrevContainer" >
+              <img className="PhotoInput-ImagePrev" src={imgFile} alt=''/>
+              <div className="PhotoInput-TitlePrev" style={{backgroundColor: accentColour}}>{title}</div>
+            </div>
+          </div>
+        </div>
+        <div className="gridItem">
+          <HexColorPicker color={accentColour} onChange={handleChange} />
+        </div>
+
+      </div>
+    </div>
+  );
+  
   
 }
 

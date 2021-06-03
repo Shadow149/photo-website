@@ -4,23 +4,22 @@ import { BrowserRouter as Redirect, Link } from "react-router-dom";
 import Photo from '../photo/Photo'
 
 
-class FeaturedPhoto extends React.Component {
+function FeaturedPhoto (props) {
 
-  render() {
-    return (
-      <div className="container">
-        <Link to={"/photo/"+ this.props.title} >
-          {/* <img className="FeaturedPhoto-Image" src={this.props.url} alt='featured'/> */}
-          <Photo className="FeaturedPhoto-Image" url={this.props.url} r_width="1000" alt='featured'/>
-        </Link>
-        <div className="FeaturedPhoto-Title" style={{backgroundColor: this.props.accentColour}}>
-          <div className="Foo">
-            {this.props.title}
-          </div>
+  return (
+    <div className="container">
+      <Link to={"/photo/"+ props.title} >
+        {/* <img className="FeaturedPhoto-Image" src={props.url} alt='featured'/> */}
+        <Photo className="FeaturedPhoto-Image" url={props.url} r_width="1000" alt='featured'/>
+      </Link>
+      <div className="FeaturedPhoto-Title" style={{backgroundColor: props.accentColour}}>
+        <div className="Foo">
+          {props.title}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+  
   
 }
 

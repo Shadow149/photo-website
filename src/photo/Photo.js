@@ -2,21 +2,18 @@ import React from 'react';
 import './Photo.css';
 
 
-class Photo extends React.Component {
+export default function Photo (props) {
 
-  resize(width) {
+  const resize = (width) => {
     if (width){
-      let url_a = this.props.url.split('/');
+      let url_a = props.url.split('/');
       url_a.splice(6,0,'w_'+width);
       return url_a.join('/');
     }
-    return this.props.url
+    return props.url
   }
 
-  render() {
-    return <img className={this.props.className} src={this.resize(this.props.r_width)} alt=''/>;
-  }
+  return <img className={props.className} src={resize(props.r_width)} alt=''/>;
   
 }
 
-export default Photo;

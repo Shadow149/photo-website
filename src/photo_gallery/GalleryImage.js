@@ -4,20 +4,15 @@ import Photo from '../photo/Photo'
 import { BrowserRouter as Redirect, Link } from "react-router-dom";
 
 
-class GalleryImage extends React.Component {
+export default function GalleryImage (props) {
 
-  render() {
-    console.log(this.props)
-    return (
-      <div className="galleryImageContainer">
-        <div className='galleryImageTitle' style={{backgroundColor: this.props.accentColour}} >{this.props.title}</div>
-        <Link to={"/photo/"+ this.props.title} >
-          <Photo className='galleryImage' url={this.props.url} r_width={this.props.r_width}/>
-        </Link>
-      </div>
-    );
-  }
+  return (
+    <div className="galleryImageContainer">
+      <div className='galleryImageTitle' style={{backgroundColor: props.accentColour}} >{props.title}</div>
+      <Link to={"/photo/"+ props.title} >
+        <Photo className='galleryImage' url={props.url} r_width={props.r_width}/>
+      </Link>
+    </div>
+  );
   
 }
-
-export default GalleryImage;
