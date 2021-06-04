@@ -61,7 +61,7 @@ function Gallery (props) {
       let photos = []
     
       for (let photo of shuffledPhotoData) {
-        photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour} r_width={500} onLoad={galleryImageLoaded}/>);
+        photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour} r_width={1000} onLoad={galleryImageLoaded}/>);
       }
 
       gallery = (
