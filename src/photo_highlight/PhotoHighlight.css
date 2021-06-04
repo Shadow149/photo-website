@@ -28,7 +28,7 @@
 .title_bar {
     float: right;
     margin-top: 20px;
-    margin-right: -6%;
+    margin-right: -5%;
     padding-right: 20%;
     padding-left: 20px;
     height: fit-content;
@@ -101,4 +101,30 @@
     display: flex;
     justify-content: center;
     align-items: center; 
+}
+
+
+.photo_zoom {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.photo_zoom_background {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: black;
+    z-index: 998;
+    opacity: 0.9;
+    cursor:zoom-out;
+}
+
+.zoomed_photo {
+    height: 90%;
+    position: absolute;
+    z-index: 999;
+    left: 50%; 
+    top: 50%; 
+    transform: translate(-50%,-50%); 
 }

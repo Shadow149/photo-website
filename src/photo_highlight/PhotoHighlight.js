@@ -1,11 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import './PhotoHighlight.css';
-import { useParams } from 'react-router-dom'
+import { useParams , useLocation} from 'react-router-dom'
 import axios from 'axios';
 import ClipLoader from "react-spinners/ClipLoader";
 import LocationViewer from './LocationViewer'
 import BackgroundImage from './BackgroundImage'
+import Photo from '../photo/Photo'
 
+
+
+function ScrollToBot() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    });
+  }, [pathname]);
+
+  return null;
+}
 
 function PhotoHighlight() {
 
@@ -21,6 +36,8 @@ function PhotoHighlight() {
   const [location, setLocation] = useState(null);
   const [metaData, setMetaData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [zoomed, setZoomed] = useState(false);
+  const [imgZoomAmount, setImgZoomAmount] = useState(50);
 
   useEffect( () => getPhotoData(photo),[]);
 
@@ -47,6 +64,10 @@ function PhotoHighlight() {
 
   };
 
+  const onPhotoClick = () => {
+    setZoomed(!zoomed);
+  }
+
   if (loading){
     return (
       <div className="highlight_loader">
@@ -56,10 +77,15 @@ function PhotoHighlight() {
   }
   return (
     <div className="photo_highlight">
+      <ScrollToBot/>
+      <div className='photo_zoom' style={{display: zoomed ? 'block' : 'none'}}>
+        <Photo className='zoomed_photo' url={url} onClick={() => console.log('clock')}/>
+        <div className='photo_zoom_background' onClick={onPhotoClick}>
+        </div>
+      </div>
       <div className="photo_hightlight_container">
-        {/* <div className="photo" style={{backgroundImage: `url(${url})`}}>
-        </div> */}
-        <BackgroundImage className="photo" src={url}/>
+
+        <BackgroundImage className="photo" src={url} onClick={onPhotoClick}/>
           
         <div className="info_area">
           <div className="title_bar" style={{backgroundColor: accentColor}}>
@@ -109,9 +135,9 @@ function PhotoHighlight() {
           <LocationViewer className="locationViewer" lng={location.lng} lat={location.lat} width="100%" height="30%"/>
         </div>
       </div>
-      <div className="extraInfo">
+      {/* <div className="extraInfo">
         asdasdasds
-      </div>
+      </div> */}
     </div>
   );
   

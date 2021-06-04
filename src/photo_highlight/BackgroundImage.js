@@ -17,7 +17,7 @@ export default function BackgroundImage(props) {
 
     if (url) {
         return (
-            <div className={props.className} style={{ backgroundImage: `url(${url})` }} onClick={() => console.log('image click')}/>
+            <div className={props.className} style={{ backgroundImage: `url(${url})` }} onClick={props.onClick}/>
         );
     }
     return (
