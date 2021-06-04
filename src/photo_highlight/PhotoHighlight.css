@@ -21,6 +21,8 @@
     background-size: 75% auto;
     background-position: right 100% bottom 50%;
     background-repeat: no-repeat;
+
+    cursor: zoom-in;
 }
 
 .title_bar {

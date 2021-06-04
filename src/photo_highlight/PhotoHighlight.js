@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import ClipLoader from "react-spinners/ClipLoader";
 import LocationViewer from './LocationViewer'
+import BackgroundImage from './BackgroundImage'
 
 
 function PhotoHighlight() {
@@ -56,9 +57,10 @@ function PhotoHighlight() {
   return (
     <div className="photo_highlight">
       <div className="photo_hightlight_container">
-        <div className="photo" style={{backgroundImage: `url(${url})`}}>
+        {/* <div className="photo" style={{backgroundImage: `url(${url})`}}>
+        </div> */}
+        <BackgroundImage className="photo" src={url}/>
           
-        </div>
         <div className="info_area">
           <div className="title_bar" style={{backgroundColor: accentColor}}>
             {title}
