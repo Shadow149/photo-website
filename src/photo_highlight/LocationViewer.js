@@ -26,7 +26,7 @@ function LocationViewer (props) {
       onClick={props.onClick}
     >
       <Marker latitude={props.lat} longitude={props.lng} offsetLeft={-15} offsetTop={-30}>
-        <img src={process.env.PUBLIC_URL + "../marker.png"} width="30px" height="30px"/>
+        <img src={process.env.PUBLIC_URL + "../marker.png"} width="30px" height="30px" alt=''/>
       </Marker>
     </MapGL>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import './GalleryImage.css';
 import Photo from '../photo/Photo'
-import { BrowserRouter as Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 export default function GalleryImage (props) {

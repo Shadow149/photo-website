@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './Locations.css';
-import { BrowserRouter as useParams, withRouter } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from 'axios'
 import MultiLocationViewer from './MultiLocationViewer'
-import userEvent from '@testing-library/user-event';
 
 
 function Locations (props) {
@@ -68,4 +66,4 @@ function Locations (props) {
   
 }
 
-export default withRouter(Locations);
+export default Locations;

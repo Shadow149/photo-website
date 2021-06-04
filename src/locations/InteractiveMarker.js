@@ -1,7 +1,6 @@
 import React from "react"
-import MapGL, {Marker} from 'react-map-gl';
+import {Marker} from 'react-map-gl';
 import './InteractiveMarker.css';
-import { BrowserRouter as Link } from "react-router-dom";
 import Photo from '../photo/Photo'
 
 
@@ -12,7 +11,7 @@ function InteractiveMarker (props) {
   return (
     <div>
       <Marker latitude={props.photo.location.lat} longitude={props.photo.location.lng} offsetLeft={-15} offsetTop={-30}>
-        <img className='locationMarker' onClick={props.onClick} src={process.env.PUBLIC_URL + "../marker.png"} width="30px" height="30px"/>
+        <img className='locationMarker' onClick={props.onClick} src={process.env.PUBLIC_URL + "../marker.png"} width="30px" height="30px" alt=''/>
           <div className={info_class} style={{backgroundColor: props.photo.accentColour}}>
             <a href={"/photo/"+ props.photo.title} className='locationLink'>
               {props.photo.title}<br></br>

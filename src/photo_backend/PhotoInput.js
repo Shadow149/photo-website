@@ -1,10 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import './PhotoInput.css';
 import { HexColorPicker } from "react-colorful";
-import { SliderPicker  } from 'react-color';
 import exifr from 'exifr'
 import jimp from 'jimp';
-import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import axios from 'axios';
 import { createHash } from 'crypto';
 import LocationPicker from './LocationPicker'
@@ -188,7 +186,7 @@ function PhotoInput (props) {
       axios
         .post("http://localhost:3000/record/add", newPhoto)
         .then((res) => {
-          if (res.status != 200) {
+          if (res.status !== 200) {
             setUploadState(0);
             setUploadLoading(false);
             setUploadMessage('Database entry failed');
@@ -205,7 +203,6 @@ function PhotoInput (props) {
   }
   
   const handleChange = color => setAccentColour(color)
-  const handleChangeRC = color => setAccentColour(color.hex)
 
   const onMapClick = event => {
     setMarker({

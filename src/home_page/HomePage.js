@@ -1,7 +1,6 @@
 import React from 'react';
 import './HomePage.css';
 import FeaturedPhotoSection from '../featured_photo_section/FeaturedPhotoSection';
-import MultiLocationViewer from '../locations/MultiLocationViewer'
 
 
 function HomePage () {
@@ -21,7 +20,6 @@ function HomePage () {
       <div className="featured_photos">
         <div className="featured_title">Featured Photos</div>
         <FeaturedPhotoSection />
-        {/* <MultiLocationViewer width='100%' height='50%' mid={this.state.mid} photos={this.state.photos}/> */}
       </div>
       
     </div>

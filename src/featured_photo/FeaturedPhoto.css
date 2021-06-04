@@ -10,6 +10,7 @@
     line-height: 50px;
 }
 
+
 .Foo {
     width: 100%;
     text-align: center;
@@ -30,14 +31,18 @@
     object-position: 40% 100%;
     box-shadow: 0 0 10px -5px black;
     margin-left: 2.5%;
+    transition: box-shadow 0.35s;
+}
+  
+
+.container:hover > .FeaturedPhoto-Image {
+    box-shadow: 0 0 15px -5px black;
 }
 
 .container {
     height: 100%;
     cursor: pointer;
 }
-
-/* .container img { max-width: initial; Maybe optional. See note below } */
 
 @media screen and (max-width: 850px) {
     .FeaturedPhoto-Image {

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import MapGL, {Marker} from 'react-map-gl';
+import React, {useState} from 'react';
+import MapGL from 'react-map-gl';
 import InteractiveMarker from './InteractiveMarker';
 
 
@@ -24,7 +24,7 @@ function MultiLocationViewer (props) {
   const markerClick = (i) => {
     const _showMarkerInfo = showMarkerInfo.slice()
     _showMarkerInfo[i] = !_showMarkerInfo[i];
-    if (showMarkerInfoPrev && showMarkerInfoPrev != i) {
+    if (showMarkerInfoPrev && showMarkerInfoPrev !== i) {
       _showMarkerInfo[showMarkerInfoPrev] = false;
     }
     setShowMarkerInfo(_showMarkerInfo);

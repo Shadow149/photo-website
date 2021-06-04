@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import './Gallery.css';
-import { BrowserRouter as useParams, withRouter } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from 'axios'
 import GalleryImage from './GalleryImage'
@@ -48,7 +47,7 @@ function Gallery (props) {
 
   const galleryImageLoaded = () => {
     setLoadingImages(loadingImages + 1);
-    if (loadingImages == photoData.length - 1){
+    if (loadingImages === photoData.length - 1){
       setImgLoading(false);
     }
   }
@@ -111,4 +110,4 @@ function Gallery (props) {
   
 }
 
-export default withRouter(Gallery);
+export default Gallery;

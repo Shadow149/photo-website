@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './PageRouter.css';
 import {
     BrowserRouter as Router,
@@ -19,7 +19,7 @@ function About() {
   return <h2>About</h2>;
 }
 
-function PageRouter (props) {
+function PageRouter () {
 
   return (
     <Router>
@@ -47,12 +47,12 @@ function PageRouter (props) {
         </nav>
 
         <Switch>
-          <Route path="/about" children={<About/>} />
-          <Route path="/gallery" children={<Gallery/>} />
-          <Route path="/photo/:photo" children={<PhotoHighlight/>} />
-          <Route path="/photoupload" children={<PhotoInput/>} />
-          <Route path="/locations" children={<Locations/>} />
-          <Route path="/" render={ () => <HomePage/>} />
+          <Route path="/about" children={ <About/> } />
+          <Route path="/gallery" children={ <Gallery/> } />
+          <Route path="/photo/:photo" children={ <PhotoHighlight/> } />
+          <Route path="/photoupload" children={ <PhotoInput/> } />
+          <Route path="/locations" children={ <Locations/> } />
+          <Route exact path="/" render={ () => <HomePage/> } />
         </Switch>
       
       </div>
