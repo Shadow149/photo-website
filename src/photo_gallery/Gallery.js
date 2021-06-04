@@ -94,7 +94,7 @@ function Gallery (props) {
         {/* <input className="colsInput" type="number" value={cols} onChange={(e) => this.setState({cols: parseInt(e.target.value)})}></input> */}
         <div>
           <label className='searchLabel'>Zoom</label>
-          <input  className="colsInput" type="range" min="1" max="7" value={cols} step="1" onChange={(e) => setCols(parseInt(e.target.value))}/>
+          <input  className="colsInput" type="range" min="1" max="7" value={7-cols} step="1" onChange={(e) => setCols(7-parseInt(e.target.value))}/>
         </div>
         <div>
           <label className='searchLabel'>Title</label> <input type="search" className='searchInput' onChange={queryTitle}></input>
