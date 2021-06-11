@@ -10,13 +10,12 @@ function Gallery(props) {
 
   let history = useHistory();
   
-
   const [photoData, setPhotoData] = useState(null);
   const [shuffledPhotoData, setShuffledPhotoData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingImages, setLoadingImages] = useState(0);
   const [imgLoading, setImgLoading] = useState(true);
-  const [cols, setCols] = useState(5);
+  const [cols, setCols] = useState(parseInt(window.innerWidth/360));
   const [filtered, setFiltered] = useState(false);
 
   useEffect(() => getPhotos(), [setPhotoData]);
