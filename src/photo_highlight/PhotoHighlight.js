@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './PhotoHighlight.css';
-import { useParams , useLocation} from 'react-router-dom'
+import { useParams , useLocation, Link} from 'react-router-dom'
 import axios from 'axios';
 import ClipLoader from "react-spinners/ClipLoader";
 import LocationViewer from './LocationViewer'
@@ -92,7 +92,10 @@ function PhotoHighlight() {
             {title}
           </div>
           <div className="top header">
-            {animal}
+            <Link className='animal_link' to={'/gallery?animal=' + animal}>
+              {animal}
+              <img alt='' className="externalImage" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE4LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDI4My4xNzggMjgzLjE3OCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjgzLjE3OCAyODMuMTc4OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgk8cGF0aCBzdHlsZT0iZmlsbDojMjMxRjIwOyIgZD0iTTI1NC44MTIsMTQwLjcxM2gtMjBjLTQuMTQyLDAtNy41LDMuMzU4LTcuNSw3LjV2OTEuMTg2YzAsNC44NC0zLjkzOSw4Ljc3OC04Ljc3OSw4Ljc3OEg0My43NzYNCgkJYy00LjgzOSwwLTguNzc1LTMuOTM4LTguNzc1LTguNzc4VjY0LjY0NWMwLTQuODQxLDMuOTM2LTguNzgsOC43NzUtOC43OGg5NS44NTVjNC4xNDIsMCw3LjUtMy4zNTgsNy41LTcuNXYtMjANCgkJYzAtNC4xNDItMy4zNTgtNy41LTcuNS03LjVINDMuNzc2Yy0yNC4xMzgsMC00My43NzUsMTkuNjQtNDMuNzc1LDQzLjc4djE3NC43NTVjMCwyNC4xNCwxOS42MzgsNDMuNzc4LDQzLjc3NSw0My43NzhoMTc0Ljc1Ng0KCQljMjQuMTQsMCw0My43NzktMTkuNjM5LDQzLjc3OS00My43Nzh2LTkxLjE4NkMyNjIuMzEyLDE0NC4wNzEsMjU4Ljk1NCwxNDAuNzEzLDI1NC44MTIsMTQwLjcxM3oiLz4NCgk8cGF0aCBzdHlsZT0iZmlsbDojMjMxRjIwOyIgZD0iTTI3NS42NzcsMGgtNzkuNTUzYy00LjE0MiwwLTcuNSwzLjM1OC03LjUsNy41djIwYzAsNC4xNDIsMy4zNTgsNy41LDcuNSw3LjVoMjcuMzA0DQoJCUwxMjAuNjgzLDEzNy43NDNjLTIuOTI5LDIuOTI5LTIuOTI5LDcuNjc3LDAsMTAuNjA3bDE0LjE0MiwxNC4xNDNjMS40MDcsMS40MDcsMy4zMTQsMi4xOTcsNS4zMDQsMi4xOTcNCgkJYzEuOTg5LDAsMy44OTctMC43OSw1LjMwMy0yLjE5N0wyNDguMTc3LDU5Ljc0OHYyNy4zMDNjMCw0LjE0MiwzLjM1OCw3LjUsNy41LDcuNWgyMGM0LjE0MiwwLDcuNS0zLjM1OCw3LjUtNy41VjcuNQ0KCQlDMjgzLjE3NywzLjM1OCwyNzkuODE5LDAsMjc1LjY3NywweiIvPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo=" />
+            </Link>
           </div>
           <div className="text">
             {desc}

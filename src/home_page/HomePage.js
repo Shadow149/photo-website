@@ -1,6 +1,7 @@
 import React from 'react';
 import './HomePage.css';
 import FeaturedPhotoSection from '../featured_photo_section/FeaturedPhotoSection';
+import About from '../about/About';
 
 
 function HomePage () {
@@ -20,6 +21,9 @@ function HomePage () {
       <div className="featured_photos">
         <div className="featured_title">Featured Photos</div>
         <FeaturedPhotoSection />
+        <div className='about_section'>
+          <About/>
+        </div>
       </div>
       
     </div>

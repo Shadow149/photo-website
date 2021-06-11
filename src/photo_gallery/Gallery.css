@@ -65,16 +65,11 @@ img {
     border-radius: 50em;
     background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg);
     background-size: contain;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.searchInput:focus::-webkit-search-cancel-button {
     opacity: .3;
     pointer-events: all;
     cursor: pointer;
 }
-  
+
 
 .colsInput {
     width: 200px;

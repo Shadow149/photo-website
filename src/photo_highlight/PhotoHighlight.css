@@ -128,3 +128,18 @@
     top: 50%; 
     transform: translate(-50%,-50%); 
 }
+
+.animal_link {
+    text-decoration: none;
+    cursor: pointer;
+    color: rgb(34, 34, 34);
+    
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.externalImage {
+    width: 10px;
+    top: 50%;
+    left: 50%;
+}

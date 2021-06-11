@@ -1,0 +1,43 @@
+h1 {
+    font-family: 'Newsreader', serif;
+}
+
+.portait {
+    width: 100%;
+}
+
+.title_portrait_container {
+    
+    align-items: center;
+    display: grid;
+    /* grid-column-gap: 50px; */
+    grid-column-gap: 3%;
+    grid-template-columns: 25% auto;
+    grid-template-rows: 100% auto;
+}
+
+.about_container {
+    margin: 40px;
+}
+
+.fav_title {
+    font-size: 45px;
+    /* margin-right: ; */
+}
+
+.fav_container {
+    margin-top: 50px;
+}
+
+
+.fav_photos_container {
+    height: 35%;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    display: grid;
+    /* grid-column-gap: 50px; */
+    grid-column-gap: 3%;
+    grid-template-columns: auto auto auto auto auto;
+    /* grid-template-rows: 100% 300%; */
+}

@@ -12,12 +12,9 @@ import PhotoInput from '../photo_backend/PhotoInput';
 import PhotoHighlight from '../photo_highlight/PhotoHighlight';
 import Gallery from '../photo_gallery/Gallery';
 import Locations from '../locations/Locations';
+import About from '../about/About';
 import ScrollToTop from './ScrollToTop';
 
-
-function About() {
-  return <h2>About</h2>;
-}
 
 function PageRouter () {
 
@@ -48,7 +45,7 @@ function PageRouter () {
 
         <Switch>
           <Route path="/about" children={ <About/> } />
-          <Route path="/gallery" children={ <Gallery/> } />
+          <Route path="/gallery" component={Gallery} />
           <Route path="/photo/:photo" children={ <PhotoHighlight/> } />
           <Route path="/photoupload" children={ <PhotoInput/> } />
           <Route path="/locations" children={ <Locations/> } />
