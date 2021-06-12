@@ -39,6 +39,10 @@ function PhotoHighlight() {
   const [zoomed, setZoomed] = useState(false);
   const [imgZoomAmount, setImgZoomAmount] = useState(50);
 
+  const [time, setTime] = useState(19);
+  const [sunRise, setSunRise] = useState(4)
+  const [sunSet, setSunSet] = useState(19)
+
   useEffect( () => getPhotoData(photo),[]);
 
   const getPhotoData = (ptitle) => {
@@ -75,6 +79,10 @@ function PhotoHighlight() {
       </div>
     );
   }
+
+  let sunX = (((time - sunRise)/(sunSet-sunRise)) * 80);
+  let sunY = 40 - Math.sqrt((40**2) - ((sunX - 40) ** 2));
+
   return (
     <div className="photo_highlight">
       <ScrollToBot/>
@@ -133,6 +141,17 @@ function PhotoHighlight() {
               <div className="text">
                 {metaData.iso}
               </div>
+            </div>
+          </div>
+          <div className='sunDialContainer'>
+            <svg width="105" height="70">
+              <path d="M -13.5 26.5 a 1 1 0 0 0 80 0" className="sunDial"></path>
+              <g style={{transform: `translate(${sunX}px, ${sunY}px)`}}>
+                <circle cx="12" cy="12" r="12" fill="#ffeb3b"></circle>
+              </g>
+            </svg>
+            <div className='sunDialTime'>
+              11:56
             </div>
           </div>
           <LocationViewer className="locationViewer" lng={location.lng} lat={location.lat} width="100%" height="30%"/>

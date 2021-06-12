@@ -3,7 +3,7 @@
     align-items: center;
     display: grid;
     grid-template-columns: 75% 25%;
-    grid-template-rows: 100% auto;
+    grid-template-rows: 100% 100%;
 }
 
 .photo_highlight {
@@ -142,4 +142,34 @@
     width: 10px;
     top: 50%;
     left: 50%;
+}
+
+.sunDial {
+    transform-origin: 40px 40px;
+    transform: rotate(180deg);
+    stroke: #303030;
+    fill: none;
+    stroke-width: 3px;
+    stroke-linecap: round;
+}
+
+.sunDialSun {
+    width: 10px;
+}
+
+
+.sunDialContainer {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    width: 110px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.sunDialTime {
+    text-align: center;   
+    /* font-family: 'Newsreader', serif; */
+    font-size: 16px;
+    font-weight: 700;
 }
