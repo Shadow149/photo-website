@@ -18,7 +18,6 @@ function MultiLocationViewer (props) {
 
   const updateInfo = () => {
     setShowMarkerInfo(Array(props.photos.length).fill(false))
-    console.log('map click')
   }
 
   const markerClick = (i) => {

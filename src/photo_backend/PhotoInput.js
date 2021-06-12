@@ -81,7 +81,6 @@ function PhotoInput (props) {
     .then( (averageColor) => {
         exifr.parse(file)
         .then(output => {
-
           let exifData = {
             camera: output.Model,
             shutterSpeed: output.ExposureTime,
@@ -119,13 +118,11 @@ function PhotoInput (props) {
   const generateCloudinarySignature = (time, public_id) => {
     // Generate signature
     let string = "public_id="+public_id+"&timestamp="+time+process.env.REACT_APP_CLOUDINARY_API_SECRET
-    console.log(string)
     const hash = createHash('sha1')
     let sig;
     hash.on('readable', () => {
       const data = hash.read();
       if (data) {
-        console.log(data.toString('hex'))
         sig = data.toString('hex');
       }
     });
@@ -240,7 +237,7 @@ function PhotoInput (props) {
                   Aperture: {metaData.aperture}<br></br>
                   Focal Length: {metaData.foc}<br></br>
                   ISO: {metaData.iso}<br></br>
-                  Time: {metaData.shutterSpeed !== '' ? (metaData.time.getFullYear() + ' ' + metaData.time.getTime()) : ''}
+                  Time: {metaData.time !== '' ? (metaData.time.getFullYear() + ' ' + metaData.time.getTime()) : ''}
                   Colour: {accentColour}
                 </p>
                 <label>Elevation: </label><input type="number" className="PhotoInput-TextInput" onChange={event => setElevation(event.target.value)}></input>

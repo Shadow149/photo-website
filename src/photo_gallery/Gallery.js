@@ -104,8 +104,6 @@ function Gallery(props) {
         photos.push(<GalleryImage title={photo.title} url={photo.url} accentColour={photo.accentColour} r_width={1000} onLoad={galleryImageLoaded}/>);
       }
 
-      console.log(photos)
-
       gallery = (
         <div className="photo_gallery" style={{ columnCount: cols, display: imgLoading ? 'none' : 'block' }}>
           {photos}

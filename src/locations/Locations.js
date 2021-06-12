@@ -19,8 +19,6 @@ function Locations (props) {
     axios
     .get("http://localhost:3000/record/")
     .then((response) => {
-      console.log(response.data)
-
       let photos = []
       let aLng = 0
       let aLat = 0
