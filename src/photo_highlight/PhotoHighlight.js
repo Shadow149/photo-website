@@ -139,7 +139,7 @@ function PhotoHighlight() {
           </g>
         </svg>
         <div className='sunDialTime'>
-          {hour}:{minutes}<br></br>
+          {hour}:{("0" + minutes).slice(-2)}<br></br>
           {day}/{month}/{year}
         </div>
       </div>
