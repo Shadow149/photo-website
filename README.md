@@ -1,3 +1,15 @@
+# Wildlife photography website
+
+ReactJS personal photography website, built with photos hosted on Cloudinary and
+database with MongoDB
+
+## Screenshots
+
+![](docs/picture1.png)
+![](docs/picture2.png)
+![](docs/picture3.png)
+![](docs/picture4.png)
+
 
 ### `npm start`
 
