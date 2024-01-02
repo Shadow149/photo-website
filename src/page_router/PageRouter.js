@@ -37,6 +37,9 @@ function PageRouter () {
             <li>
               <Link to="/locations">Locations</Link>
             </li>
+            <li>
+              <a href="https://github.com/Shadow149/photo-website">Source Code</a>
+            </li>
             {/* <li>
               <Link to="/photoupload">Upload Photo</Link>
             </li> */}

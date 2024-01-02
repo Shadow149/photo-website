@@ -8,7 +8,7 @@ function HomePage () {
 
   return (
     <div className="page">
-      <div className="para_photo">
+      <div className="para_photo" style={{backgroundImage: "url(/homepage_bkg.jpg)"}}>
         <div className="bio">
           <h1 className="name_title">Alfred Roberts</h1>
           <h1 className="name_subtitle">Wildlife Photographer</h1>
