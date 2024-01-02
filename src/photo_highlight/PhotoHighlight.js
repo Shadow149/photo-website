@@ -158,7 +158,7 @@ function PhotoHighlight() {
     <div className="photo_highlight">
       <ScrollToBot/>
       <div className='photo_zoom' style={{display: zoomed ? 'block' : 'none'}}>
-        <Photo className='zoomed_photo' url={url}/>
+        <Photo className='zoomed_photo' url={url} r_width={2000}/>
         <div className='photo_zoom_background' onClick={onPhotoClick}>
         </div>
       </div>

@@ -12,14 +12,12 @@
 
 .photo {
 
-    /* Full height */
     height: 100%; 
-    width: 100%;
+    /* width: 100%; */
 
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-size: 75% auto;
-    background-position: right 100% bottom 50%;
+    /* background-attachment: fixed; */
+    background-size: auto 100%;
+    background-position: center right 25%;
     background-repeat: no-repeat;
 
     cursor: zoom-in;

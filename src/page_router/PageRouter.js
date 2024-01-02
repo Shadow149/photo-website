@@ -28,26 +28,26 @@ function PageRouter () {
             <li className="home">
               <Link to="/">Alfred Roberts</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/about">About</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/gallery">Gallery</Link>
             </li>
             <li>
               <Link to="/locations">Locations</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/photoupload">Upload Photo</Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
 
         <Switch>
-          <Route path="/about" children={ <About/> } />
+          {/* <Route path="/about" children={ <About/> } /> */}
           <Route path="/gallery" component={Gallery} />
           <Route path="/photo/:photo" children={ <PhotoHighlight/> } />
-          <Route path="/photoupload" children={ <PhotoInput/> } />
+          {/* <Route path="/photoupload" children={ <PhotoInput/> } /> */}
           <Route path="/locations" children={ <Locations/> } />
           <Route exact path="/" render={ () => <HomePage/> } />
         </Switch>
