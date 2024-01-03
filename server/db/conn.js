@@ -13,13 +13,14 @@ const client = new MongoClient(process.env.ATLAS_URI, {
 var _db;
  
 module.exports = {
-  connectToServer: function (callback) {
+  connectToServer: function (listener, callback) {
     client.connect(function (err, db) {
       // Verify we got a good "db" object
       if (db)
       {
         _db = db.db("photos_db");
         console.log("Successfully connected to MongoDB."); 
+        listener();
       }
       return callback(err);
          });
