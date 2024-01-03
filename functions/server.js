@@ -11,8 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 const dbo = require("./db/conn");
-await dbo.connectToServer();
+const result = await dbo.connectToServer();
 console.log(`Server is running on port: ${port}`);
+console.log(result)
 
 app.use('/.netlify/functions/server', require("./routes/record"));
 
