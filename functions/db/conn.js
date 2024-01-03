@@ -5,7 +5,6 @@ const client = new MongoClient(encodeURI(Db), {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-    useUnifiedTopology: true,    
   }
 });
  
