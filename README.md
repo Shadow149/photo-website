@@ -1,7 +1,9 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/76387a79-b1f9-4e5f-9bfa-0c03f595c412/deploy-status)](https://app.netlify.com/sites/alfredroberts/deploys)
+
 # [Wildlife photography website](https://alfredroberts.netlify.app/)
 
 ReactJS personal photography website, built with photos hosted on Cloudinary and
-database with MongoDB
+database with MongoDB. Hosted with Netlify.
 
 ## Screenshots
 
