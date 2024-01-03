@@ -8,7 +8,7 @@ require("dotenv").config({ path: "./.env" });
 const port = process.env.DB_PORT || 5000;
 app.use(cors());
 app.use(express.json());
-app.use(require("./routes/record"));
+app.use('/.netlify/functions/server', require("./routes/record"));
 // get driver connection
 const dbo = require("./db/conn");
 dbo.connectToServer(function (err) {
@@ -16,7 +16,6 @@ dbo.connectToServer(function (err) {
 });
 console.log(`Server is running on port: ${port}`);
 
-app.use('/.netlify/functions/server', router);
 
 
 // app.listen(port, () => {
