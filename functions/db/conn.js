@@ -1,10 +1,6 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const client = new MongoClient(process.env.ATLAS_URI, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
+  useUnifiedTopology: true, useNewUrlParser: true, maxIdleTimeMS : 270000, minPoolSize : 2, maxPoolSize : 4
 });
 client.on('serverHeartbeatFailed', (event) => {
   console.log(event);
