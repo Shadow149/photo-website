@@ -12,9 +12,13 @@ const clientPromise = client.connect();
 var _db;
  
 module.exports = {
-  connectToServer: async function () {
-    _db = (await clientPromise).db(process.env.DB_NAME);
-    console.log("Successfully connected to MongoDB."); 
+  connectToServer: async function (event) {
+    try {
+      _db = (await clientPromise).db(process.env.DB_NAME);
+      console.log("Successfully connected to MongoDB."); 
+    } catch (error) {
+      console.log(error);
+    }
   },
  
   getDb: function () {
