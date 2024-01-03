@@ -2,6 +2,8 @@
 
 # [Wildlife photography website](https://alfredroberts.netlify.app/)
 
+***NOTE: SITE IS CURRENTLY UNAVAILABLE TO CONNECT TO MONGODB DATABASE***
+
 ReactJS personal photography website, built with photos hosted on Cloudinary and
 database with MongoDB. Hosted with Netlify.
 
