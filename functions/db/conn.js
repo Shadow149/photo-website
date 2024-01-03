@@ -1,7 +1,10 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const client = new MongoClient(process.env.ATLAS_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
 });
 
 const clientPromise = client.connect();
