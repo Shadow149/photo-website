@@ -3,12 +3,12 @@ import './Gallery.css';
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from 'axios'
 import GalleryImage from './GalleryImage'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 
 function Gallery(props) {
 
-  let history = useHistory();
+  let history = useNavigate();
   
   const [photoData, setPhotoData] = useState(null);
   const [shuffledPhotoData, setShuffledPhotoData] = useState(null);

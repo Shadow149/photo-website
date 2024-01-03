@@ -4,7 +4,7 @@ import { HexColorPicker } from "react-colorful";
 import exifr from 'exifr'
 import jimp from 'jimp';
 import axios from 'axios';
-import { createHash } from 'crypto';
+import { createHash } from 'crypto-browserify';
 import LocationPicker from './LocationPicker'
 import ClipLoader from "react-spinners/ClipLoader";
 

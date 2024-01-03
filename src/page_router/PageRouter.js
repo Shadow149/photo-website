@@ -2,7 +2,7 @@ import React from 'react';
 import './PageRouter.css';
 import {
     BrowserRouter as Router,
-    Switch,
+    Routes,
     Route,
     Link
 } from "react-router-dom";
@@ -46,14 +46,14 @@ function PageRouter () {
           </ul>
         </nav>
 
-        <Switch>
+        <Routes>
           {/* <Route path="/about" children={ <About/> } /> */}
-          <Route path="/gallery" component={Gallery} />
-          <Route path="/photo/:photo" children={ <PhotoHighlight/> } />
+          <Route path="/gallery" element={<Gallery/>} />
+          <Route path="/photo/:photo" element={ <PhotoHighlight/> } />
           {/* <Route path="/photoupload" children={ <PhotoInput/> } /> */}
-          <Route path="/locations" children={ <Locations/> } />
-          <Route exact path="/" render={ () => <HomePage/> } />
-        </Switch>
+          <Route path="/locations" element={ <Locations/> } />
+          <Route exact path="/" element={ <HomePage/> } />
+        </Routes>
       
       </div>
     </Router>

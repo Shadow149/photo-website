@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './About.css';
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from 'axios'
-import { useHistory, useLocation } from 'react-router-dom'
 import FeaturedPhotoSection from '../featured_photo_section/FeaturedPhotoSection';
 import FeaturedPhoto from '../featured_photo/FeaturedPhoto';
 
