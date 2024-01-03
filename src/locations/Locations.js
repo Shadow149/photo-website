@@ -17,7 +17,7 @@ function Locations (props) {
 
   const getPhotos = () => {
     axios
-    .get("http://localhost:3000/record/")
+    .get("https://alfredroberts.netlify.app/.netlify/functions/server/record/")
     .then((response) => {
       let photos = []
       let aLng = 0
