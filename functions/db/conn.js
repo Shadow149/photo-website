@@ -6,6 +6,9 @@ const client = new MongoClient(process.env.ATLAS_URI, {
     deprecationErrors: true,
   }
 });
+client.on('serverHeartbeatFailed', (event) => {
+  console.log(event);
+});
 
 const clientPromise = client.connect();
  
