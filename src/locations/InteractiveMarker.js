@@ -15,7 +15,7 @@ function InteractiveMarker (props) {
           <div className={info_class} style={{backgroundColor: props.photo.accentColour}}>
             <a href={"/photo/"+ props.photo.title} className='locationLink'>
               {props.photo.title}<br></br>
-              <Photo className='galleryImage' url={props.photo.url} r_width="400"/>
+              <Photo className='MarkerImage' url={props.photo.url} r_width="500"/>
             </a>
           </div>
       </Marker>
