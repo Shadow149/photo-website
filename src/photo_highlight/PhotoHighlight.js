@@ -46,7 +46,7 @@ function PhotoHighlight() {
 
   const getPhotoData = (ptitle) => {
     axios
-    .get("/.netlify/functions/server/record/title/" + ptitle)
+    .get("https://rose-enthusiastic-fox.cyclic.app/record/title/" + ptitle)
     .then((response) => {
       
       setTitle(ptitle);

@@ -24,7 +24,7 @@ function Gallery(props) {
 
   const getPhotos = () => {
     axios
-      .get("/.netlify/functions/server/record/")
+      .get("https://rose-enthusiastic-fox.cyclic.app/record/")
       .then((response) => {
         setPhotoData(response.data);
         setShuffledPhotoData(response.data);

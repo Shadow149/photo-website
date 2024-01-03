@@ -17,7 +17,7 @@ function Locations (props) {
 
   const getPhotos = () => {
     axios
-    .get("/.netlify/functions/server/record/")
+    .get("https://rose-enthusiastic-fox.cyclic.app/record/")
     .then((response) => {
       let photos = []
       let aLng = 0
