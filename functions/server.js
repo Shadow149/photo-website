@@ -11,11 +11,16 @@ app.use(cors());
 app.use(express.json());
 
 const dbo = require("./db/conn");
-const result = await dbo.connectToServer();
-console.log(`Server is running on port: ${port}`);
-console.log(result)
+
+async function start() {
+  const result = await dbo.connectToServer();
+  console.log(`Server is running on port: ${port}`);
+  console.log(result)
+}
 
 app.use('/.netlify/functions/server', require("./routes/record"));
 
 module.exports = app;
 module.exports.handler = serverless(app);
+
+start();
