@@ -11,7 +11,7 @@ function FeaturedPhotoSection (props) {
   useEffect(() => {
     const num = '4';
     axios
-      .get("https://alfredroberts.netlify.app/.netlify/functions/server/last_documents/" + num)
+      .get("/.netlify/functions/server/last_documents/" + num)
       .then((response) => {
         setFeaturedPhotos(response.data);
       })

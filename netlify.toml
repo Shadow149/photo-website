@@ -1,2 +1,3 @@
 [build]
   functions = "functions"
+  targetPort = 3001
