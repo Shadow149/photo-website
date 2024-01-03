@@ -1,6 +1,7 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const Db = process.env.ATLAS_URI;
-const client = new MongoClient(encodeURI(Db), {
+
+console.log(process.env.ATLAS_URI)
+const client = new MongoClient(process.env.ATLAS_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
